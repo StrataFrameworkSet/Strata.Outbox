@@ -1,0 +1,48 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
+    repositories {
+        mavenCentral()
+        mavenLocal()
+        maven {
+            name "GitHub-StrataFrameworkSet-Packages"
+            url "https://maven.pkg.github.com/StrataFrameworkSet/repository"
+            credentials {
+                username = "$System.env.REPOSITORY_USER"
+                password = "$System.env.REPOSITORY_PASSWORD"
+            }
+        }
+        maven {
+            name "Confluent"
+            url "https://packages.confluent.io/maven"
+        }
+        maven {
+            name "Jabylon"
+            url "https://www.jabylon.org/maven/"
+        }
+    }
+}
+
+rootProject.name = 'Strata.Outbox'
+
+// Applications
+include 'Applications:Strata.Outbox.ServiceHost'
+
+// Components
+include 'Components:Strata.Outbox.Core'
+include 'Components:Strata.Outbox.Service'
+include 'Components:Strata.Outbox.Client'
+include 'Components:Strata.Outbox.Server'
+
+// Tests
+include 'Tests:Strata.Outbox.CoreTest'
+include 'Tests:Strata.Outbox.ServiceTest'
+include 'Tests:Strata.Outbox.ClientTest'
+include 'Tests:Strata.Outbox.ServerTest'
+include 'Tests:Strata.Outbox.TestSuite'
