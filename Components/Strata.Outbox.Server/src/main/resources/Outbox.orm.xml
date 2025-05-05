@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings>
+    xmlns="http://java.sun.com/xml/ns/persistence/orm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    version="1.0"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd">
+    <description>Outbox object relational entity mappings</description>
+
+    <entity class="strata.outbox.server.domain.Outbox" access="PROPERTY">
+        <table name="Session"/>
+        <inheritance strategy="SINGLE_TABLE"/>
+        <attributes>
+            <id name="primaryId">
+                <column name="primaryId"/>
+                <generated-value strategy="IDENTITY"/>
+            </id>
+            <basic name="created">
+                <column name="created"/>
+            </basic>
+            <basic name="lastModified">
+                <column name="lastModified"/>
+            </basic>
+            <basic name="foo">
+                <column name="foo"/>
+            </basic>
+            <version name="version">
+                <column name="version"/>
+            </version>
+            <transient name="self"/>
+        </attributes>
+    </entity>
+
+</entity-mappings>

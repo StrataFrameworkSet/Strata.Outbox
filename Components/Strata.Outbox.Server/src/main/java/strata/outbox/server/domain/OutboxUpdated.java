@@ -1,0 +1,24 @@
+//////////////////////////////////////////////////////////////////////////////
+// OutboxUpdated.java
+//////////////////////////////////////////////////////////////////////////////
+
+package strata.outbox.server.domain;
+
+public
+class OutboxUpdated
+    extends AbstractOutboxEvent
+{
+    public
+    OutboxUpdated(Outbox src)
+    {
+        super("OutboxUpdated",src);
+    }
+
+    public
+    OutboxUpdated(String correlId,Outbox src)
+    {
+        super("OutboxUpdated",correlId,src);
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////

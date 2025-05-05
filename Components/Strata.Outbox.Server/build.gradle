@@ -1,0 +1,54 @@
+plugins {
+    id 'java-library'
+}
+
+sourceSets {
+    main.java.srcDirs = ['src/main/java','build/generated-java']
+    main.resources.srcDirs = ['src/main/resources','src/main/schema']
+    test.java.srcDirs = ['src/unused']
+    test.resources.srcDirs = ['src/unused']
+}
+
+
+apply plugin: 'maven-publish'
+
+group 'strata.outbox'
+version "$major$minor$patch"
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
+
+publishing {
+    publications {
+        StrataOutboxServer(MavenPublication) {
+            artifactId = 'strata-outbox-server'
+            from components.java
+
+            artifact sourceJar {
+                //classifier "sources"
+            }
+
+            repositories {
+                maven {
+                    name "GitHubPackages"
+                    url "https://maven.pkg.github.com/StrataFrameworkSet/repository"
+                    credentials {
+                        username = "$System.env.REPOSITORY_USER"
+                        password = "$System.env.REPOSITORY_PASSWORD"
+                    }
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    api project(":Components:Strata.Outbox.Service")
+    api "strata.server:strata-server-spring:$version"
+    api "org.springframework.boot:spring-boot-starter-security:$springboot_version"
+    api 'org.springframework.security:spring-security-core:6.2.1'
+    api 'org.postgresql:postgresql:42.6.0'
+    api 'com.h2database:h2:2.1.214'
+    api 'org.modelmapper:modelmapper:3.2.0'
+}

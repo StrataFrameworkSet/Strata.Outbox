@@ -1,0 +1,25 @@
+plugins {
+    id 'java-library'
+}
+
+sourceSets {
+    test.java.srcDirs = ['src/test/java']
+    test.resources.srcDirs = ['src/test/resources']
+    main.java.srcDirs = ['src/unused']
+}
+
+group 'strata.outbox'
+version '1.0-SNAPSHOT'
+
+dependencies {
+    testImplementation project(':Components:Strata.Outbox.Client')
+    testImplementation(testFixtures(project(':Tests:Strata.Outbox.ServiceTest')))
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform {
+        includeTags("CommitStage")
+    }
+}

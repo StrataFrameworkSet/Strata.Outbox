@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+    id "com.google.cloud.tools.jib" version "3.4.2"
+}
+
+sourceSets {
+    main.java.srcDirs = ['src/main/java','build/generated-java']
+    main.resources.srcDirs = ['src/main/resources','src/main/schema']
+    test.java.srcDirs = ['src/unused']
+    test.resources.srcDirs = ['src/unused']
+}
+
+group 'strata.outbox'
+version "$major$minor$patch"
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
+
+dependencies {
+    implementation project(":Components:Strata.Outbox.Server")
+}

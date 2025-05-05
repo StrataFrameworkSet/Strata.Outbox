@@ -1,0 +1,29 @@
+//////////////////////////////////////////////////////////////////////////////
+// CreateOutboxData.java
+//////////////////////////////////////////////////////////////////////////////
+
+package strata.outbox.service.requestreply;
+
+public
+class CreateOutboxData
+{
+    private String foo;
+
+    public
+    CreateOutboxData()
+    {
+        foo = null;
+    }
+
+    public CreateOutboxData
+    setFoo(String f)
+    {
+        foo = f;
+        return this;
+    }
+
+    public String
+    getFoo() { return foo; }
+}
+
+//////////////////////////////////////////////////////////////////////////////
