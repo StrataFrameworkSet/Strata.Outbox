@@ -1,0 +1,33 @@
+{
+  "name": "strata.outbox.client",
+  "version": "0.0.0",
+  "description": "",
+  "private": true,
+  "main": "build/dist/index.js",
+  "types": "build/dist/index.d.ts",
+  "scripts": {
+    "copy-files": "shx cp src/main/typescript/package.json build/dist/package.json",
+    "clean": "del-cli -f build/dist",
+    "deep-clean": "yarn run clean && del-cli -f node_modules && del-cli -f yarn.lock",
+    "dev-init": "yarn --dev install",
+    "build-init": "yarn run dev-init && yarn install && yarn run clean && shx mkdir -p build && yarn upgrade --pattern \"strata|strata\"",
+    "build": "yarn run build-init && tsc && cd src/main/typescript && yarn run increment-snapshot && cd ../../.. && yarn run copy-files && cd build/dist && yarn pack",
+    "publish-package": "yarn run build && cd build/dist && yarn publish --non-interactive --tag 0.0.0-snapshot"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "guid-typescript": "^1.0.9",
+    "rxjs": "^6.5.5",
+    "strata.client.core": "0.0.0-snapshot",
+    "strata.foundation.core": "0.0.0-snapshot",
+    "strata.outbox.service": "0.0.0-snapshot"
+  },
+  "devDependencies": {
+    "del-cli": "^5.1.0",
+    "npm-prerelease-timestamp": "^1.0.1",
+    "shx": "^0.3.4",
+    "typescript": "^5.2.2"
+  }
+}

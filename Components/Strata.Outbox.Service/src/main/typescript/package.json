@@ -1,0 +1,17 @@
+{
+  "name": "strata.outbox.service",
+  "version": "0.0.0-snapshot.1745354167843",
+  "license": "Apache-2.0",
+  "scripts": {
+    "increment-snapshot": "npm-prerelease-timestamp -v 0.0.0",
+    "increment-major": "npm version major",
+    "increment-minor": "npm version minor",
+    "increment-patch": "npm version patch"
+  },
+  "dependencies": {
+    "rxjs": "^6.5.5",
+    "strata.client.core": "0.0.0-snapshot",
+    "strata.foundation.core": "0.0.0-snapshot",
+    "guid-typescript": "^1.0.9"
+  }
+}

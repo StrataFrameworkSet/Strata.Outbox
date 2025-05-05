@@ -1,0 +1,24 @@
+//////////////////////////////////////////////////////////////////////////////
+// OutboxDestroyed.java
+//////////////////////////////////////////////////////////////////////////////
+
+package strata.outbox.server.domain;
+
+public
+class OutboxDestroyed
+    extends AbstractOutboxEvent
+{
+    public
+    OutboxDestroyed(Outbox src)
+    {
+        super("OutboxDestroyed",src);
+    }
+
+    public
+    OutboxDestroyed(String correlId,Outbox src)
+    {
+        super("OutboxDestroyed",correlId,src);
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////

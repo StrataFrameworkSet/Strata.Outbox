@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "ES2022",
+        "sourceMap": true,
+        "declaration": true,
+        "outDir": "build/dist",
+        "jsx": "react",
+        "allowSyntheticDefaultImports": true
+    },
+    "include": [
+        "src/main/typescript/**/*",
+        "src/main/typescript/typings/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "lib",
+        "Sayin.Session.Service.iml"
+    ]
+}

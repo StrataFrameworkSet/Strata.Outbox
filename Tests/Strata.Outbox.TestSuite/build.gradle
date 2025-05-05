@@ -1,0 +1,86 @@
+plugins {
+    id 'java-library'
+}
+
+sourceSets {
+    test.java.srcDirs = ['src/test/java']
+    test.resources.srcDirs = ['src/test/resources']
+    main.java.srcDirs = ['src/unused']
+}
+
+apply plugin: 'maven-publish'
+
+
+group 'strata.outbox'
+version '1.0-SNAPSHOT'
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
+
+task suiteJar(type:Jar) {
+    from sourceSets.main.output
+    from sourceSets.test.output
+}
+
+tasks.named('assemble').configure {
+    dependsOn 'jar'
+    dependsOn 'sourceJar'
+    dependsOn 'suiteJar'
+}
+
+dependencies {
+    api project(':Components:Strata.Outbox.Service')
+    api project(':Components:Strata.Outbox.Server')
+    api project(':Components:Strata.Outbox.Client')
+    api project(':Tests:Strata.Outbox.ServiceTest')
+    api project(':Tests:Strata.Outbox.ServerTest')
+    api project(':Tests:Strata.Outbox.ClientTest')
+    api 'org.junit.jupiter:junit-jupiter-api:5.9.1'
+    api 'org.junit.jupiter:junit-jupiter-engine:5.9.1'
+    api 'org.junit.jupiter:junit-jupiter:5.10.2'
+    api 'org.junit.platform:junit-platform-console-standalone:1.10.2'
+}
+
+test {
+    useJUnitPlatform {
+        includeTags("CommitStage")
+    }
+}
+
+/*
+jar {
+    dependsOn(':Components:Strata.Outbox.Service:jar')
+    dependsOn(':Components:Strata.Outbox.Server:jar')
+    dependsOn(':Components:Strata.Outbox.Client:jar')
+    dependsOn(':Tests:Strata.Outbox.ServiceTest:jar')
+    dependsOn(':Tests:Strata.Outbox.ServerTest:jar')
+    dependsOn(':Tests:Strata.Outbox.ClientTest:jar')
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+*/
+
+publishing {
+    publications {
+        StrataFoundationSpring(MavenPublication) {
+            artifactId = 'strata-outbox-testsuite'
+            from components.java
+
+            repositories {
+                maven {
+                    name "GitHubPackages"
+                    url "https://maven.pkg.github.com/StrataFrameworkSet/repository"
+                    credentials {
+                        username = "$System.env.REPOSITORY_USER"
+                        password = "$System.env.REPOSITORY_PASSWORD"
+                    }
+                }
+            }
+        }
+    }
+}

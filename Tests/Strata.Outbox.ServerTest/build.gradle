@@ -1,0 +1,30 @@
+plugins {
+    id 'java-library'
+}
+
+sourceSets {
+    test.java.srcDirs = ['src/test/java']
+    test.resources.srcDirs = ['src/test/resources']
+    main.java.srcDirs = ['src/unused']
+}
+
+group 'strata.outbox'
+version '1.0-SNAPSHOT'
+
+dependencies {
+    testImplementation project(':Components:Strata.Outbox.Server')
+    testImplementation(testFixtures(project(':Tests:Strata.Outbox.ServiceTest')))
+    testImplementation "org.springframework.boot:spring-boot-starter:$springboot_version"
+    testImplementation "org.springframework.boot:spring-boot-starter-test:$springboot_version"
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.9.3'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
+    testImplementation 'org.postgresql:postgresql:42.6.0'
+    testImplementation 'com.h2database:h2:2.1.214'
+}
+
+test {
+    useJUnitPlatform {
+        includeTags("CommitStage")
+    }
+}
