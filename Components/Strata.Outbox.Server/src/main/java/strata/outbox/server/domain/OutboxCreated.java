@@ -1,0 +1,24 @@
+//////////////////////////////////////////////////////////////////////////////
+// OutboxCreated.java
+//////////////////////////////////////////////////////////////////////////////
+
+package strata.outbox.server.domain;
+
+public
+class OutboxCreated
+    extends AbstractOutboxEvent
+{
+    public
+    OutboxCreated(Outbox src)
+    {
+        super("OutboxCreated",src);
+    }
+
+    public
+    OutboxCreated(String correlId,Outbox src)
+    {
+        super("OutboxCreated",correlId,src);
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,28 @@
+{
+    "name": "Strata.Outbox",
+    "private": true,
+    "scripts": {
+        "remote-registry-config": "yarn config set registry https://registry.npmjs.org/",
+        "local-registry-install": "yarn global add verdaccio",
+        "local-registry-config": "yarn config set registry http://localhost:4873/",
+        "local-registry-start": "verdaccio",
+        "local-registry-init": "yarn run local-registry-install && yarn run local-registry-start && yarn run local-registry-config",
+        "dev-init": "yarn --dev install",
+        "clean-strata-outbox-service": "Components/Strata.Outbox.Service && yarn run clean",
+        "clean-strata-outbox-client": "cd Components/Strata.Outbox.Client && yarn run clean",
+        "clean-components": "yarn run clean-strata-outbox-service && yarn run clean-strata-outbox-client",
+        "clean": "yarn run dev-init && yarn run clean-components",
+        "deep-clean-strata-outbox-service": "cd Components/Strata.Outbox.Service && yarn run clean",
+        "deep-clean-strata-outbox-client": "cd Components/Strata.Outbox.Client && yarn run clean",
+        "deep-clean-components": "yarn run deep-clean-strata-outbox-service && yarn run deep-clean-strata-outbox-client",
+        "deep-clean": "yarn run dev-init && yarn run deep-clean-components",
+        "build-strata-outbox-service": "cd Components/Strata.Outbox.Service && yarn run publish-package",
+        "build-strata-outbox-client": "cd Components/Strata.Outbox.Client && yarn run publish-package",
+        "build-components": "yarn run build-strata-outbox-service && yarn run build-strata-outbox-client",
+        "build": "yarn run dev-init && yarn run build-components",
+        "test": "yarn run build"
+    },
+    "devDependencies": {
+        "del-cli": "^5.1.0"
+    }
+}

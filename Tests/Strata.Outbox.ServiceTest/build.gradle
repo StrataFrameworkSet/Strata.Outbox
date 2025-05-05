@@ -1,0 +1,30 @@
+plugins {
+    id 'java-library'
+    id 'java-test-fixtures'
+}
+
+sourceSets {
+    testFixtures.java.srcDirs = ['src/testFixtures/java']
+    testFixtures.resources.srcDirs = ['src/testFixtures/resources']
+    test.java.srcDirs = ['src/test/java']
+    test.resources.srcDirs = ['src/test/resources']
+    main.java.srcDirs = ['src/unused']
+}
+
+group 'strata.outbox'
+version '1.0-SNAPSHOT'
+
+dependencies {
+    testImplementation project(':Components:Strata.Outbox.Service')
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testFixturesImplementation project(':Components:Strata.Outbox.Service')
+    testFixturesImplementation platform('org.junit:junit-bom:5.9.1')
+    testFixturesImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform {
+        includeTags("CommitStage")
+    }
+}

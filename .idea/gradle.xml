@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/Applications" />
+            <option value="$PROJECT_DIR$/Applications/Strata.Outbox.ServiceHost" />
+            <option value="$PROJECT_DIR$/Components" />
+            <option value="$PROJECT_DIR$/Components/Strata.Outbox.Client" />
+            <option value="$PROJECT_DIR$/Components/Strata.Outbox.Server" />
+            <option value="$PROJECT_DIR$/Components/Strata.Outbox.Service" />
+            <option value="$PROJECT_DIR$/Tests" />
+            <option value="$PROJECT_DIR$/Tests/Strata.Outbox.ClientTest" />
+            <option value="$PROJECT_DIR$/Tests/Strata.Outbox.ServerTest" />
+            <option value="$PROJECT_DIR$/Tests/Strata.Outbox.ServiceTest" />
+            <option value="$PROJECT_DIR$/Tests/Strata.Outbox.TestSuite" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

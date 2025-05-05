@@ -1,0 +1,11 @@
+{
+    "type" : "record",
+    "namespace" : "strata.outbox.service.event",
+    "name" : "OutboxEvent",
+    "fields" : [
+        {"name" : "identifiers", "type": "strata.foundation.core.event.EventIdentifiersData"},
+        {"name" : "eventType", "type": "strata.foundation.core.event.StandardEventType"},
+        {"name":  "sourceId", "type": ["null","long"], "default":  null},
+        {"name" : "exception", "type": ["null","strata.foundation.core.event.ExceptionData"], "default" : null}
+    ]
+}
