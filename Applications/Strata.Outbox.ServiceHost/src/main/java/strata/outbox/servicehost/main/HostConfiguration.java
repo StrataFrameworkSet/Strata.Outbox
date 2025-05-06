@@ -5,6 +5,8 @@
 package strata.outbox.servicehost.main;
 
 import strata.outbox.server.application.ApplicationConfiguration;
+import strata.outbox.server.application.IOutboxWorker;
+import strata.outbox.server.domain.DomainConfiguration;
 import strata.outbox.server.platform.PlatformConfiguration;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springdoc.core.properties.SpringDocConfigProperties;
@@ -27,14 +29,6 @@ import strata.server.spring.service.ServiceConfiguration;
 
 @Configuration
 @EnableTransactionManagement
-/*
-@EnableWebSecurity
-@SecurityScheme(
-    name = "bearerAuth",
-    type = SecuritySchemeType.HTTP,
-    bearerFormat = "JWT",
-    scheme = "bearer")
- */
 @Import({
     ApplicationConfiguration.class,
     DomainConfiguration.class,
@@ -89,92 +83,6 @@ class HostConfiguration
         return filter;
     }
 
-    /*
-    @Bean
-    public SessionAuthenticationFilter
-    sessionAuthenticationFilter(AuthenticationManager mgr,IJsonWebTokenParser parser)
-    {
-        return new SessionAuthenticationFilter(mgr,parser);
-    }
-
-    @Bean
-    public AuthenticationManager
-    authenticationManager(
-        HttpSecurity http,
-        SessionAuthenticationProvider provider)
-        throws Exception
-    {
-        return
-            http
-                .getSharedObject(AuthenticationManagerBuilder.class)
-                .authenticationProvider(provider)
-                .build();
-    }
-
-    @Bean
-    public SecurityFilterChain
-    securityFilterChain(
-        HttpSecurity                http,
-        CommonsRequestLoggingFilter requestLoggingFilter,
-        SessionAuthenticationFilter sessionAuthenticationFilter)
-        throws Exception
-    {
-        return
-            http
-                .addFilterBefore(
-                    sessionAuthenticationFilter,
-                    AnonymousAuthenticationFilter.class)
-                .addFilterBefore(
-                    requestLoggingFilter,
-                    SessionAuthenticationFilter.class)
-                .authorizeHttpRequests(
-                    authorizer ->
-                        authorizer
-                            .requestMatchers(
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/outbox-service/xxx")
-                            .permitAll()
-                            .requestMatchers(HttpMethod.OPTIONS)
-                            .permitAll()
-                            .requestMatchers(
-                                "/outbox-service/yyy",
-                                "/outbox-service/zzz")
-                            .hasAuthority("GUEST"))
-                .csrf(customizer -> customizer.disable())
-                .build();
-    }
-    */
-
-    @Bean
-    @Scope("singleton")
-    public GroupedOpenApi
-    openApi()
-    {
-        return
-            GroupedOpenApi
-                .builder()
-                .group("Outbox")
-                .pathsToMatch("/outbox-service/**")
-                .packagesToScan("strata.outbox.server.platform")
-                .build();
-    }
-
-    @Bean
-    @Scope("singleton")
-    public ObjectMapperProvider
-    objectMapperProvider(SpringDocConfigProperties properties)
-    {
-        return new StrataObjectMapperProvider(properties);
-    }
-
-    @Bean
-    @Scope("singleton")
-    public SpringDocConfigProperties
-    springDocConfigProperties()
-    {
-        return new SpringDocConfigProperties();
-    }
 }
 
 //////////////////////////////////////////////////////////////////////////////

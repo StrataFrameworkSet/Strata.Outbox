@@ -33,47 +33,35 @@ class OutboxServiceController
     }
 
     @PostMapping(
-        value = "/create-outbox",
+        value = "/start-worker",
         produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody CompletionStage<StartWorkerReply>
-    createOutbox(@RequestBody StartWorkerRequest request)
+    startWorker(@RequestBody StartWorkerRequest request)
     {
-        logger.info("delegating createOutbox to implementation service");
+        logger.info("delegating start-worker request to implementation service");
         return implementation.startWorker(request);
     }
 
     @PostMapping(
-        value = "/update-outbox",
+        value = "/stop-worker",
         produces = MediaType.APPLICATION_JSON_VALUE)
-    //@Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public @ResponseBody CompletionStage<StopWorkerReply>
-    updateOutbox(@RequestBody StopWorkerRequest request)
+    stopWorker(@RequestBody StopWorkerRequest request)
     {
-        logger.info("delegating updateOutbox to implementation service");
+        logger.info("delegating stop-worker request to implementation service");
         return implementation.stopWorker(request);
     }
 
     @PostMapping(
-        value = "/destroy-outbox",
+        value = "/query-worker",
         produces = MediaType.APPLICATION_JSON_VALUE)
-    //@Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public @ResponseBody CompletionStage<QueryWorkerReply>
-    destroyOutbox(@RequestBody QueryWorkerRequest request)
+    queryWorker(@RequestBody QueryWorkerRequest request)
     {
-        logger.info("delegating updateOutbox to implementation service");
+        logger.info("delegating query-worker to implementation service");
         return implementation.queryWorker(request);
     }
 
-    @PostMapping(
-        value = "/find-outbox",
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    //@Operation(security = @SecurityRequirement(name = "bearerAuth"))
-    public @ResponseBody CompletionStage<FindOutboxReply>
-    findOutbox(@RequestBody FindOutboxRequest request)
-    {
-        logger.info("delegating findSession to implementation service");
-        return implementation.findOutbox(request);
-    }
 }
 
 //////////////////////////////////////////////////////////////////////////////

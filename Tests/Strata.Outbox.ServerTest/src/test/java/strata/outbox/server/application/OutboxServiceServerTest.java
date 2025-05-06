@@ -45,10 +45,9 @@ class OutboxServiceServerTest
         RequestContextHolder.resetRequestAttributes();
     }
 
-    @Override
     @Test
     public void
-    testCreateOutbox()
+    testStartWorker()
     {
         super.testCreateOutbox();
     }
@@ -57,7 +56,7 @@ class OutboxServiceServerTest
     public void
     testStopWorker()
     {
-        super.testUpdateOutbox();
+        super.testStopWorker();
     }
 
     @Test

@@ -9,6 +9,7 @@ import io.debezium.engine.DebeziumEngine;
 import io.debezium.engine.DebeziumEngine.Builder;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import strata.outbox.core.repository.IOutboxEventRepository;
 import strata.outbox.server.application.IOutboxWorker;
 import strata.outbox.server.domain.IOutboxEventRouter;
 
@@ -22,19 +23,22 @@ class DebeziumOutboxWorker
     private final Builder<ChangeEvent<String,String>>  builder;
     private DebeziumEngine<ChangeEvent<String,String>> engine;
     private final IOutboxEventRouter                   router;
+    private final IOutboxEventRepository               repository;
 
     public
     DebeziumOutboxWorker(
         Builder<ChangeEvent<String,String>> builder,
-        IOutboxEventRouter                         router)
+        IOutboxEventRouter                  router,
+        IOutboxEventRepository              repository)
     {
         this.builder = builder;
         this.engine  = null;
         this.router  = router;
+        this.repository = repository;
     }
 
     @Override
-    @Async("executor")
+    @Async("outbox-worker")
     public void
     start()
     {
@@ -43,7 +47,7 @@ class DebeziumOutboxWorker
 
         engine =
             builder
-            .notifying(new DebeziumChangeConsumer(router))
+            .notifying(new DebeziumChangeConsumer(router,repository))
             .build();
 
         engine.run();

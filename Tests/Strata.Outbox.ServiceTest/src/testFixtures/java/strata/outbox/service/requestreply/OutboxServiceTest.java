@@ -16,43 +16,33 @@ class OutboxServiceTest
 
     @Test
     public void
-    testCreateOutbox()
+    testStartWorker()
     {
         StartWorkerReply reply =
             getSubject()
-                .startWorker(
-                    new StartWorkerRequest()
-                        .setOutbox(
-                            new CreateOutboxData()
-                                .setFoo("XXX-YYYYY-ZZZZZZZ")))
+                .startWorker(new StartWorkerRequest())
                 .toCompletableFuture()
                 .join();
 
         Assertions.assertTrue(reply.isSuccess(),reply.getFailureMessage());
-        Assertions.assertNotNull(reply.getCreatedOutbox());
-        Assertions.assertNotNull(reply.getCreatedOutbox().getOutboxId());
-        Assertions.assertEquals("XXX-YYYYY-ZZZZZZZ",reply.getCreatedOutbox().getFoo());
+
     }
 
     @Test
     public void
-    testUpdateOutbox()
+    testStopWorker()
     {
-        StartWorkerReply createReply =
+        StartWorkerReply startReply =
             getSubject()
-                .startWorker(
-                    new StartWorkerRequest()
-                        .setOutbox(
-                            new CreateOutboxData()
-                                .setFoo("XXX-YYYYY-ZZZZZZZ")))
+                .startWorker(new StartWorkerRequest())
                 .toCompletableFuture()
                 .join();
 
         OutboxData entity = null;
         Long id = null;
 
-        Assertions.assertTrue(createReply.isSuccess(),createReply.getFailureMessage());
-        entity = createReply.getCreatedOutbox();
+        Assertions.assertTrue(startReply.isSuccess(),startReply.getFailureMessage());
+        entity = startReply.getCreatedOutbox();
         id = entity.getOutboxId();
         Assertions.assertNotNull(entity);
         Assertions.assertNotNull(id);

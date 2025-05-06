@@ -7,10 +7,14 @@ package strata.outbox.server.platform;
 import io.debezium.engine.ChangeEvent;
 import io.debezium.engine.DebeziumEngine;
 import io.debezium.engine.format.Json;
-import strata.outbox.core.receiver.IOutboxEventReceiverMapProvider;
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springdoc.core.properties.SpringDocConfigProperties;
+import org.springdoc.core.providers.ObjectMapperProvider;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import strata.foundation.spring.mapper.StrataObjectMapperProvider;
+import strata.outbox.core.repository.IOutboxEventRepository;
 import strata.outbox.server.application.IOutboxWorker;
 import strata.outbox.server.domain.IOutboxEventRouter;
-import strata.outbox.server.domain.OutboxEventRouter;
 import strata.outbox.service.requestreply.IOutboxService;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.context.annotation.Bean;
@@ -31,14 +35,26 @@ public
 class PlatformConfiguration
 {
 
+    @Bean("outbox-worker")
+    public ThreadPoolTaskExecutor
+    executor()
+    {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+
+        executor.setCorePoolSize(1);
+        executor.setMaxPoolSize(256);
+        executor.setQueueCapacity(256);
+        return executor;
+    }
     @Bean
     @Scope("singleton")
     public IOutboxWorker
     outboxWorker(
         Builder<ChangeEvent<String,String>> builder,
-        IOutboxEventRouter                  router)
+        IOutboxEventRouter                  router,
+        IOutboxEventRepository              repository)
     {
-        return new DebeziumOutboxWorker(builder,router);
+        return new DebeziumOutboxWorker(builder,router,repository);
     }
 
     @Bean
@@ -49,13 +65,6 @@ class PlatformConfiguration
             DebeziumEngine
                 .create(Json.class)
                 .using(new DebeziumPropertiesProvider(configuration).get());
-    }
-
-    @Bean
-    public IOutboxEventRouter
-    router(IOutboxEventReceiverMapProvider receiverMapProvider)
-    {
-        return new OutboxEventRouter(receiverMapProvider.get());
     }
 
     @Bean
@@ -89,6 +98,35 @@ class PlatformConfiguration
         return new JpaUnitOfWork(factory);
     }
 
+    @Bean
+    @Scope("singleton")
+    public GroupedOpenApi
+    openApi()
+    {
+        return
+            GroupedOpenApi
+                .builder()
+                .group("Outbox")
+                .pathsToMatch("/outbox-service/**")
+                .packagesToScan("strata.outbox.server.platform")
+                .build();
+    }
+
+    @Bean
+    @Scope("singleton")
+    public ObjectMapperProvider
+    objectMapperProvider(SpringDocConfigProperties properties)
+    {
+        return new StrataObjectMapperProvider(properties);
+    }
+
+    @Bean
+    @Scope("singleton")
+    public SpringDocConfigProperties
+    springDocConfigProperties()
+    {
+        return new SpringDocConfigProperties();
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////

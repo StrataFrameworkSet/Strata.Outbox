@@ -44,7 +44,7 @@ class OutboxServiceClientTest
     public void
     testStopWorker()
     {
-        super.testUpdateOutbox();
+        super.testStopWorker();
     }
 
     @Test

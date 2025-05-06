@@ -1,41 +1,37 @@
 //////////////////////////////////////////////////////////////////////////////
-// CreateOutboxContext.java
+// StartWorkerContext.java
 //////////////////////////////////////////////////////////////////////////////
 
 package strata.outbox.server.application;
 
 import strata.outbox.service.requestreply.StartWorkerRequest;
 
-import java.util.Optional;
-
 public
-class CreateOutboxContext
+class StartWorkerContext
 {
     private StartWorkerRequest request;
-    private Optional<Outbox>    createdOutbox;
+    private Boolean            working;
 
     public
-    CreateOutboxContext(StartWorkerRequest req)
+    StartWorkerContext(StartWorkerRequest req)
     {
         request = req;
-        createdOutbox = Optional.empty();
+        working = Boolean.FALSE;
     }
 
-    public CreateOutboxContext
-    setCreatedOutbox(Outbox created)
+    public StartWorkerContext
+    setWorking(Boolean working)
     {
-        createdOutbox = Optional.of(created);
+        this.working = working;
         return this;
     }
 
     public StartWorkerRequest
     getRequest() { return request; }
 
-    public CreateOutboxData
-    getOutboxToCreate() { return request.getOutbox(); }
+    public Boolean
+    isWorking() { return working; }
 
-    public Optional<Outbox>
-    getCreatedOutbox() { return createdOutbox; }
 }
 
 //////////////////////////////////////////////////////////////////////////////

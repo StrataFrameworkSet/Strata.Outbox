@@ -8,10 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import strata.outbox.core.receiver.IOutboxEventReceiver;
+import strata.outbox.core.receiver.IOutboxEventReceiverMapProvider;
 import strata.outbox.core.repository.RepositoryConfiguration;
-
-import java.util.Map;
 
 @Configuration
 @EnableTransactionManagement
@@ -21,9 +19,9 @@ class DomainConfiguration
 {
     @Bean
     public IOutboxEventRouter
-    outboxEventRouter(Map<String,IOutboxEventReceiver> receivers)
+    router(IOutboxEventReceiverMapProvider provider)
     {
-        return new OutboxEventRouter(receivers);
+        return new OutboxEventRouter(provider.get());
     }
 }
 

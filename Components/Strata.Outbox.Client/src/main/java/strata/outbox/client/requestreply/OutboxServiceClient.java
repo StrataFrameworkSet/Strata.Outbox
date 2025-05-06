@@ -34,7 +34,7 @@ class OutboxServiceClient
     {
         return
             doPostAsync(
-                "create-outbox",
+                "start-worker",
                 StartWorkerReply.class,
                 request);
     }
@@ -45,7 +45,7 @@ class OutboxServiceClient
     {
         return
             doPostAsync(
-                "update-outbox",
+                "stop-worker",
                 StopWorkerReply.class,
                 request);
     }
@@ -56,19 +56,8 @@ class OutboxServiceClient
     {
         return
             doPostAsync(
-                "destroy-outbox",
+                "query-worker",
                 QueryWorkerReply.class,
-                request);
-    }
-
-    @Override
-    public CompletionStage<FindOutboxReply>
-    findOutbox(FindOutboxRequest request)
-    {
-        return
-            doPostAsync(
-                "find-outbox",
-                FindOutboxReply.class,
                 request);
     }
 
