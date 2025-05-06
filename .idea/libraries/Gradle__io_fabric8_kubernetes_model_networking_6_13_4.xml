@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: io.fabric8:kubernetes-model-networking:6.13.4" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="io.fabric8" artifactId="kubernetes-model-networking" version="6.13.4" baseVersion="6.13.4" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.fabric8/kubernetes-model-networking/6.13.4/e9fcbe07e8e44ccd6a3b8a12b052dbf5979a7c9d/kubernetes-model-networking-6.13.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: org.jboss.resteasy:resteasy-core:6.2.7.Final" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.jboss.resteasy" artifactId="resteasy-core" version="6.2.7.Final" baseVersion="6.2.7.Final" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jboss.resteasy/resteasy-core/6.2.7.Final/4ae48f5a8356e02ffb2e68cd0272e9ce3f7ee28f/resteasy-core-6.2.7.Final.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

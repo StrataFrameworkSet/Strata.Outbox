@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: io.smallrye:smallrye-context-propagation-storage:2.1.2" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="io.smallrye" artifactId="smallrye-context-propagation-storage" version="2.1.2" baseVersion="2.1.2" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.smallrye/smallrye-context-propagation-storage/2.1.2/e291497d3ba965cd68d39ad64868374bfbb7e1f7/smallrye-context-propagation-storage-2.1.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

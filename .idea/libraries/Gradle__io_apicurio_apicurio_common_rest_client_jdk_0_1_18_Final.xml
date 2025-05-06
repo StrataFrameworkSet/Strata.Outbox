@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: io.apicurio:apicurio-common-rest-client-jdk:0.1.18.Final" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="io.apicurio" artifactId="apicurio-common-rest-client-jdk" version="0.1.18.Final" baseVersion="0.1.18.Final" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.apicurio/apicurio-common-rest-client-jdk/0.1.18.Final/2686d57ae2f8003173e2f633001a572d7001c33/apicurio-common-rest-client-jdk-0.1.18.Final.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

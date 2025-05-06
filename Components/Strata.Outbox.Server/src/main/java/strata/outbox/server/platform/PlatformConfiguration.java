@@ -4,7 +4,13 @@
 
 package strata.outbox.server.platform;
 
-import strata.outbox.service.event.IOutboxEventSender;
+import io.debezium.engine.ChangeEvent;
+import io.debezium.engine.DebeziumEngine;
+import io.debezium.engine.format.Json;
+import strata.outbox.core.receiver.IOutboxEventReceiverMapProvider;
+import strata.outbox.server.application.IOutboxWorker;
+import strata.outbox.server.domain.IOutboxEventRouter;
+import strata.outbox.server.domain.OutboxEventRouter;
 import strata.outbox.service.requestreply.IOutboxService;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.context.annotation.Bean;
@@ -12,14 +18,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.context.annotation.RequestScope;
 import strata.foundation.core.configuration.IConfiguration;
-import strata.server.core.unitofwork.IUnitOfWorkSynchronizationManager;
 import strata.server.spring.repository.LocalContainerEntityManagerFactoryBeanProvider;
 import strata.server.spring.unitofwork.ISpringUnitOfWorkManager;
 import strata.server.spring.unitofwork.JpaUnitOfWork;
 import strata.server.spring.unitofwork.JpaUnitOfWorkManager;
-import strata.server.spring.unitofwork.SpringUnitOfWorkSynchronizationManager;
+import io.debezium.engine.DebeziumEngine.Builder;
 
 @Configuration
 @EnableTransactionManagement
@@ -28,20 +32,37 @@ class PlatformConfiguration
 {
 
     @Bean
-    @RequestScope
+    @Scope("singleton")
+    public IOutboxWorker
+    outboxWorker(
+        Builder<ChangeEvent<String,String>> builder,
+        IOutboxEventRouter                  router)
+    {
+        return new DebeziumOutboxWorker(builder,router);
+    }
+
+    @Bean
+    public Builder<ChangeEvent<String,String>>
+    builder(IConfiguration configuration)
+    {
+        return
+            DebeziumEngine
+                .create(Json.class)
+                .using(new DebeziumPropertiesProvider(configuration).get());
+    }
+
+    @Bean
+    public IOutboxEventRouter
+    router(IOutboxEventReceiverMapProvider receiverMapProvider)
+    {
+        return new OutboxEventRouter(receiverMapProvider.get());
+    }
+
+    @Bean
     public OutboxServiceController
     outboxServiceController(IOutboxService service)
     {
         return new OutboxServiceController(service);
-    }
-
-    @Bean
-    @RequestScope
-    public IOutboxEventSender
-    outboxEventSender(IUnitOfWorkSynchronizationManager manager)
-    {
-        return
-            new OnCommitOutboxEventSender(new MockOutboxEventSender(),manager);
     }
 
     @Bean
@@ -55,7 +76,6 @@ class PlatformConfiguration
     }
 
     @Bean
-    @RequestScope
     public ISpringUnitOfWorkManager
     unitOfWorkManager(JpaUnitOfWork unitOfWork)
     {
@@ -63,20 +83,12 @@ class PlatformConfiguration
     }
 
     @Bean
-    @RequestScope
     public JpaUnitOfWork
     unitOfWork(EntityManagerFactory factory)
     {
         return new JpaUnitOfWork(factory);
     }
 
-    @Bean
-    @RequestScope
-    public IUnitOfWorkSynchronizationManager
-    synchronizer()
-    {
-        return new SpringUnitOfWorkSynchronizationManager();
-    }
 }
 
 //////////////////////////////////////////////////////////////////////////////

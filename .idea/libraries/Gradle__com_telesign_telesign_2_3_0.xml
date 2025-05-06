@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: com.telesign:telesign:2.3.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="com.telesign" artifactId="telesign" version="2.3.0" baseVersion="2.3.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.telesign/telesign/2.3.0/e7c8509e68e7b4595a0ea2234760d7ef0ddcc89c/telesign-2.3.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

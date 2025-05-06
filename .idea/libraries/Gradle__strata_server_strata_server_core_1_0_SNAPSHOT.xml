@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: strata.server:strata-server-core:1.0-SNAPSHOT" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="strata.server" artifactId="strata-server-core" version="1.0-SNAPSHOT" baseVersion="1.0-SNAPSHOT" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/strata.server/strata-server-core/1.0-SNAPSHOT/60244793ff42d17abd799b581c63aa98a40ea985/strata-server-core-1.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

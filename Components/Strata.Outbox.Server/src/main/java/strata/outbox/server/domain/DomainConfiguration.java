@@ -1,4 +1,4 @@
-//////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////
 // DomainConfiguration.java
 //////////////////////////////////////////////////////////////////////////////
 
@@ -6,21 +6,24 @@ package strata.outbox.server.domain;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.context.annotation.RequestScope;
-import strata.server.core.unitofwork.IUnitOfWork;
+import strata.outbox.core.receiver.IOutboxEventReceiver;
+import strata.outbox.core.repository.RepositoryConfiguration;
+
+import java.util.Map;
 
 @Configuration
 @EnableTransactionManagement
+@Import({RepositoryConfiguration.class})
 public
 class DomainConfiguration
 {
     @Bean
-    @RequestScope
-    public IOutboxRepository
-    outboxRepository(IUnitOfWork unitOfWork)
+    public IOutboxEventRouter
+    outboxEventRouter(Map<String,IOutboxEventReceiver> receivers)
     {
-        return new OutboxRepository(unitOfWork);
+        return new OutboxEventRouter(receivers);
     }
 }
 

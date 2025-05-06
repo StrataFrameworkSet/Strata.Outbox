@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: io.vertx:vertx-codegen:4.5.11" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="io.vertx" artifactId="vertx-codegen" version="4.5.11" baseVersion="4.5.11" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.vertx/vertx-codegen/4.5.11/664f61b2be17f4634725231ad60235f90228e25c/vertx-codegen-4.5.11.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

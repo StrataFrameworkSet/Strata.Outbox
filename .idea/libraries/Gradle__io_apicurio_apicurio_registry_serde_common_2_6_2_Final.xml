@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: io.apicurio:apicurio-registry-serde-common:2.6.2.Final" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="io.apicurio" artifactId="apicurio-registry-serde-common" version="2.6.2.Final" baseVersion="2.6.2.Final" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.apicurio/apicurio-registry-serde-common/2.6.2.Final/75f888ad25950bae2cb6def3af26fc0ee014a3f1/apicurio-registry-serde-common-2.6.2.Final.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

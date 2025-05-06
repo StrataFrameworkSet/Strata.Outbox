@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: io.quarkus:quarkus-resteasy-jackson:3.15.3" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="io.quarkus" artifactId="quarkus-resteasy-jackson" version="3.15.3" baseVersion="3.15.3" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.quarkus/quarkus-resteasy-jackson/3.15.3/a60ecf7a7b8c1b6c9f722f4400d12d7b17ac42f4/quarkus-resteasy-jackson-3.15.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

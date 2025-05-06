@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: io.confluent:common-config:5.3.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="io.confluent" artifactId="common-config" version="5.3.0" baseVersion="5.3.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.confluent/common-config/5.3.0/3f4cdf85cf94e805886057f72bdafb42675b9177/common-config-5.3.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

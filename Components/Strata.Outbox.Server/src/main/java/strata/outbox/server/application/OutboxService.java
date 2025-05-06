@@ -4,10 +4,6 @@
 
 package strata.outbox.server.application;
 
-import strata.outbox.server.domain.IOutboxEvent;
-import strata.outbox.server.domain.IOutboxEventObserver;
-import strata.outbox.server.domain.IOutboxRepository;
-import strata.outbox.server.domain.Outbox;
 import strata.outbox.service.event.IOutboxEventSender;
 import strata.outbox.service.event.OutboxEvent;
 import strata.outbox.service.requestreply.*;
@@ -20,6 +16,7 @@ import strata.foundation.core.concurrent.CurrentThreadExecutor;
 import strata.foundation.core.event.EventIdentifiersData;
 import strata.foundation.core.event.StandardEventType;
 import strata.foundation.core.transfer.ExceptionData;
+import strata.server.core.domainevent.IDomainEventObserver;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -29,7 +26,7 @@ import java.util.concurrent.CompletionStage;
 
 public
 class OutboxService
-    implements ITransactionalOutboxService, IOutboxEventObserver
+    implements ITransactionalOutboxService, IDomainEventObserver<IOutboxEvent>
 {
     private final IOutboxRepository  repository;
     private final IOutboxEventSender sender;

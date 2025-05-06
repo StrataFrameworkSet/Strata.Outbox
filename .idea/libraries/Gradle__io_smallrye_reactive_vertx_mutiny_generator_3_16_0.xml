@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: io.smallrye.reactive:vertx-mutiny-generator:3.16.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="io.smallrye.reactive" artifactId="vertx-mutiny-generator" version="3.16.0" baseVersion="3.16.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.smallrye.reactive/vertx-mutiny-generator/3.16.0/8a9e69bd92470acb5e67713b00a1145f2bdc96a4/vertx-mutiny-generator-3.16.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

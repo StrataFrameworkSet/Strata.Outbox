@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: io.apicurio:apicurio-registry-utils-converter:2.6.2.Final" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="io.apicurio" artifactId="apicurio-registry-utils-converter" version="2.6.2.Final" baseVersion="2.6.2.Final" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.apicurio/apicurio-registry-utils-converter/2.6.2.Final/a35794b690bdefd967fddde41e2f13307d6f635c/apicurio-registry-utils-converter-2.6.2.Final.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

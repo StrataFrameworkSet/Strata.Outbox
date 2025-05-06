@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: strata.foundation:strata-foundation-kafka:1.0-SNAPSHOT" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="strata.foundation" artifactId="strata-foundation-kafka" version="1.0-SNAPSHOT" baseVersion="1.0-SNAPSHOT" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/strata.foundation/strata-foundation-kafka/1.0-SNAPSHOT/2f0815106cb549656ec7186cc45d1659f9c7294c/strata-foundation-kafka-1.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

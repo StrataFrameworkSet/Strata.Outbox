@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: io.smallrye.config:smallrye-config:3.9.1" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="io.smallrye.config" artifactId="smallrye-config" version="3.9.1" baseVersion="3.9.1" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.smallrye.config/smallrye-config/3.9.1/db69e3239e5a75d6928d86400e2afb751a3acbbd/smallrye-config-3.9.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

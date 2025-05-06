@@ -4,7 +4,6 @@
 
 package strata.outbox.server.application;
 
-import strata.outbox.server.domain.Outbox;
 import strata.outbox.service.requestreply.CreateOutboxData;
 import strata.outbox.service.requestreply.CreateOutboxRequest;
 

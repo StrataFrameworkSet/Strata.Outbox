@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: io.quarkus:quarkus-security-runtime-spi:3.15.3" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="io.quarkus" artifactId="quarkus-security-runtime-spi" version="3.15.3" baseVersion="3.15.3" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.quarkus/quarkus-security-runtime-spi/3.15.3/54055a19ec3f922201c040dfb1bd2917f2bd52b9/quarkus-security-runtime-spi-3.15.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

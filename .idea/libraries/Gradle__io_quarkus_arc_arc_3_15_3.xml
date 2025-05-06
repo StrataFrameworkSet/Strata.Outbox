@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: io.quarkus.arc:arc:3.15.3" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="io.quarkus.arc" artifactId="arc" version="3.15.3" baseVersion="3.15.3" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.quarkus.arc/arc/3.15.3/b3f81d9487475be22acd739233c820bda12aaa16/arc-3.15.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

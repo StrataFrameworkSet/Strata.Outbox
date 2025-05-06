@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id=":Tests:Strata.Outbox.ClientTest:main" external.linked.project.path="$MODULE_DIR$/../../../../Tests/Strata.Outbox.ClientTest" external.root.project.path="$MODULE_DIR$/../../../.." external.system.id="GRADLE" external.system.module.group="strata.outbox" external.system.module.type="sourceSet" external.system.module.version="1.0-SNAPSHOT" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/../../../../Tests/Strata.Outbox.ClientTest/build/classes/java/main" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../../Tests/Strata.Outbox.ClientTest/src/main">
+      <sourceFolder url="file://$MODULE_DIR$/../../../../Tests/Strata.Outbox.ClientTest/src/main/resources" type="java-resource" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../../../Tests/Strata.Outbox.ClientTest/src/unused">
+      <sourceFolder url="file://$MODULE_DIR$/../../../../Tests/Strata.Outbox.ClientTest/src/unused" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

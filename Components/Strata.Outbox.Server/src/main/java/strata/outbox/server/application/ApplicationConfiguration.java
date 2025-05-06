@@ -4,7 +4,6 @@
 
 package strata.outbox.server.application;
 
-import strata.outbox.server.domain.IOutboxRepository;
 import strata.outbox.service.event.IOutboxEventSender;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -22,11 +21,9 @@ class ApplicationConfiguration
     @RequestScope
     public ITransactionalOutboxService
     sessionService(
-        IOutboxRepository  repository,
-        IOutboxEventSender sender,
         ModelMapper            mapper)
     {
-        return new OutboxService(repository,sender,mapper);
+        return new OutboxService(null,null,mapper);
     }
 
     @Bean
