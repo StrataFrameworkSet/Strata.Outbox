@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// DestroyOutboxRequest.java
+// QueryWorkerRequest.java
 //////////////////////////////////////////////////////////////////////////////
 
 package strata.outbox.service.requestreply;
@@ -10,32 +10,32 @@ import java.time.Instant;
 import java.util.UUID;
 
 public
-class FindOutboxRequest
+class QueryWorkerRequest
     extends AbstractServiceRequest
 {
     private Long   outboxId;
 
-    public FindOutboxRequest()
+    public QueryWorkerRequest()
     {
         super();
         outboxId = null;
     }
 
     @Override
-    public FindOutboxRequest
+    public QueryWorkerRequest
     setRequestId(UUID requestId)
     {
-        return (FindOutboxRequest)super.setRequestId(requestId);
+        return (QueryWorkerRequest)super.setRequestId(requestId);
     }
 
     @Override
-    public FindOutboxRequest
+    public QueryWorkerRequest
     setTimestamp(Instant timestamp)
     {
-        return (FindOutboxRequest)super.setTimestamp(timestamp);
+        return (QueryWorkerRequest)super.setTimestamp(timestamp);
     }
 
-    public FindOutboxRequest
+    public QueryWorkerRequest
     setOutboxId(Long id)
     {
         outboxId = id;

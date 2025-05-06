@@ -4,8 +4,6 @@
 
 package strata.outbox.server.application;
 
-import strata.outbox.service.requestreply.CreateOutboxData;
-import strata.outbox.service.requestreply.OutboxData;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.Module;
 

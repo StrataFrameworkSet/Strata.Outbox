@@ -29,35 +29,35 @@ class OutboxServiceClient
     }
 
     @Override
-    public CompletionStage<CreateOutboxReply>
-    createOutbox(CreateOutboxRequest request)
+    public CompletionStage<StartWorkerReply>
+    startWorker(StartWorkerRequest request)
     {
         return
             doPostAsync(
                 "create-outbox",
-                CreateOutboxReply.class,
+                StartWorkerReply.class,
                 request);
     }
 
     @Override
-    public CompletionStage<UpdateOutboxReply>
-    updateOutbox(UpdateOutboxRequest request)
+    public CompletionStage<StopWorkerReply>
+    stopWorker(StopWorkerRequest request)
     {
         return
             doPostAsync(
                 "update-outbox",
-                UpdateOutboxReply.class,
+                StopWorkerReply.class,
                 request);
     }
 
     @Override
-    public CompletionStage<DestroyOutboxReply>
-    destroyOutbox(DestroyOutboxRequest request)
+    public CompletionStage<QueryWorkerReply>
+    queryWorker(QueryWorkerRequest request)
     {
         return
             doPostAsync(
                 "destroy-outbox",
-                DestroyOutboxReply.class,
+                QueryWorkerReply.class,
                 request);
     }
 

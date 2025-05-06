@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// UpdateOutboxRequest.java
+// StartWorkerRequest.java
 //////////////////////////////////////////////////////////////////////////////
 
 package strata.outbox.service.requestreply;
@@ -10,43 +10,29 @@ import java.time.Instant;
 import java.util.UUID;
 
 public
-class UpdateOutboxRequest
+class StartWorkerRequest
     extends AbstractServiceRequest
 {
-    private UpdateOutboxData outbox;
-    private String foo;
-
     public
-    UpdateOutboxRequest()
+    StartWorkerRequest()
     {
         super();
-        outbox = null;
-        foo = null;
     }
 
     @Override
-    public UpdateOutboxRequest
+    public StartWorkerRequest
     setRequestId(UUID requestId)
     {
-        return (UpdateOutboxRequest)super.setRequestId(requestId);
+        return (StartWorkerRequest)super.setRequestId(requestId);
     }
 
     @Override
-    public UpdateOutboxRequest
+    public StartWorkerRequest
     setTimestamp(Instant timestamp)
     {
-        return (UpdateOutboxRequest)super.setTimestamp(timestamp);
+        return (StartWorkerRequest)super.setTimestamp(timestamp);
     }
 
-    public UpdateOutboxRequest
-    setOutbox(UpdateOutboxData  entity)
-    {
-        outbox = entity;
-        return this;
-    }
-
-    public UpdateOutboxData
-    getOutbox() { return outbox; }
 }
 
 //////////////////////////////////////////////////////////////////////////////

@@ -9,17 +9,15 @@ import java.util.concurrent.CompletionStage;
 public
 interface IOutboxService
 {
-    CompletionStage<CreateOutboxReply>
-    createOutbox(CreateOutboxRequest request);
+    CompletionStage<StartWorkerReply>
+    startWorker(StartWorkerRequest request);
 
-    CompletionStage<UpdateOutboxReply>
-    updateOutbox(UpdateOutboxRequest request);
+    CompletionStage<StopWorkerReply>
+    stopWorker(StopWorkerRequest request);
 
-    CompletionStage<DestroyOutboxReply>
-    destroyOutbox(DestroyOutboxRequest request);
+    CompletionStage<QueryWorkerReply>
+    queryWorker(QueryWorkerRequest request);
 
-    CompletionStage<FindOutboxReply>
-    findOutbox(FindOutboxRequest request);
 }
 
 //////////////////////////////////////////////////////////////////////////////

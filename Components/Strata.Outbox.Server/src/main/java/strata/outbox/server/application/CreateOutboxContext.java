@@ -4,19 +4,18 @@
 
 package strata.outbox.server.application;
 
-import strata.outbox.service.requestreply.CreateOutboxData;
-import strata.outbox.service.requestreply.CreateOutboxRequest;
+import strata.outbox.service.requestreply.StartWorkerRequest;
 
 import java.util.Optional;
 
 public
 class CreateOutboxContext
 {
-    private CreateOutboxRequest request;
+    private StartWorkerRequest request;
     private Optional<Outbox>    createdOutbox;
 
     public
-    CreateOutboxContext(CreateOutboxRequest req)
+    CreateOutboxContext(StartWorkerRequest req)
     {
         request = req;
         createdOutbox = Optional.empty();
@@ -29,7 +28,7 @@ class CreateOutboxContext
         return this;
     }
 
-    public CreateOutboxRequest
+    public StartWorkerRequest
     getRequest() { return request; }
 
     public CreateOutboxData

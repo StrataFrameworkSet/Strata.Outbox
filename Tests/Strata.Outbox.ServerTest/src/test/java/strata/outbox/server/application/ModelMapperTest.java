@@ -4,7 +4,6 @@
 
 package strata.outbox.server.application;
 
-import strata.outbox.service.requestreply.OutboxData;
 import org.junit.jupiter.api.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationContext;

@@ -33,26 +33,23 @@ class OutboxServiceClientTest
         subject = null;
     }
 
-    @Override
     @Test
     public void
-    testCreateOutbox()
+    testStartWorker()
     {
         super.testCreateOutbox();
     }
 
-    @Override
     @Test
     public void
-    testUpdateOutbox()
+    testStopWorker()
     {
         super.testUpdateOutbox();
     }
 
-    @Override
     @Test
     public void
-    testDestroyOutbox()
+    testQueryWorker()
     {
         super.testDestroyOutbox();
     }

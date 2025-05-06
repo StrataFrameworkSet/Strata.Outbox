@@ -4,19 +4,18 @@
 
 package strata.outbox.server.application;
 
-import strata.outbox.service.requestreply.UpdateOutboxData;
-import strata.outbox.service.requestreply.UpdateOutboxRequest;
+import strata.outbox.service.requestreply.StopWorkerRequest;
 
 import java.util.Optional;
 
 public
 class UpdateOutboxContext
 {
-    private UpdateOutboxRequest request;
+    private StopWorkerRequest request;
     private Optional<Outbox>    updatedOutbox;
 
     public
-    UpdateOutboxContext(UpdateOutboxRequest req)
+    UpdateOutboxContext(StopWorkerRequest req)
     {
         request = req;
         updatedOutbox = Optional.empty();
@@ -35,7 +34,7 @@ class UpdateOutboxContext
         return setUpdatedOutbox(Optional.of(updated));
     }
 
-    public UpdateOutboxRequest
+    public StopWorkerRequest
     getRequest() { return request; }
 
     public UpdateOutboxData

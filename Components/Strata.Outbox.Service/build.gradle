@@ -1,65 +1,23 @@
 plugins {
     id 'java-library'
-    id "com.github.davidmc24.gradle.plugin.avro-base" version "1.3.0"
 }
 
 sourceSets {
-    main.java.srcDirs = ['src/main/java','build/generated-java']
-    main.resources.srcDirs = ['src/main/resources','src/main/schema']
+    main.java.srcDirs = ['src/main/java']
+    main.resources.srcDirs = ['src/main/resources']
     test.java.srcDirs = ['src/unused']
     test.resources.srcDirs = ['src/unused']
 }
 
-import com.github.davidmc24.gradle.plugin.avro.GenerateAvroJavaTask
-
 apply plugin: 'maven-publish'
-apply plugin: "com.github.davidmc24.gradle.plugin.avro-base"
 
 group 'strata.outbox'
 version "$major$minor$patch"
 
-configurations {
-    avroSchema
-}
-
-dependencies {
-    implementation "org.apache.avro:avro:1.11.0"
-    avroSchema "strata.foundation:strata-foundation-core:$version"
-}
-
-def importAvroSchema = tasks.register('importAvroSchema', Copy) {
-    from {
-        configurations.avroSchema.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-    include "avro/*.avsc"
-    into layout.buildDirectory.dir("imported-schema")
-}
-
-def genAvro = tasks.register("genAvro", GenerateAvroJavaTask) {
-    source = file("src/main/schema/avro")
-    outputDir = file("build/generated-java")
-    createSetters = true
-    createOptionalGetters = false
-    gettersReturnOptional = false
-    optionalGettersForNullableFieldsOnly = false
-    fieldVisibility = "PRIVATE"
-    outputCharacterEncoding = "UTF-8"
-    stringType = "String"
-    enableDecimalLogicalType = true
-}
-
-tasks.named("genAvro").configure {
-    source(importAvroSchema)
-}
-
-tasks.named("compileJava").configure {
-    source(genAvro)
-}
-
 publishing {
     publications {
-        SayinUserService(MavenPublication) {
-            artifactId = 'sayin-user-service'
+        StrataOutboxService(MavenPublication) {
+            artifactId = 'strata-outbox-service'
             from components.java
 
             repositories {

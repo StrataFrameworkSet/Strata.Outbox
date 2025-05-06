@@ -5,8 +5,6 @@
 package strata.outbox.server.platform;
 
 import strata.outbox.service.requestreply.*;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.inject.Inject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,33 +35,33 @@ class OutboxServiceController
     @PostMapping(
         value = "/create-outbox",
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody CompletionStage<CreateOutboxReply>
-    createOutbox(@RequestBody CreateOutboxRequest request)
+    public @ResponseBody CompletionStage<StartWorkerReply>
+    createOutbox(@RequestBody StartWorkerRequest request)
     {
         logger.info("delegating createOutbox to implementation service");
-        return implementation.createOutbox(request);
+        return implementation.startWorker(request);
     }
 
     @PostMapping(
         value = "/update-outbox",
         produces = MediaType.APPLICATION_JSON_VALUE)
     //@Operation(security = @SecurityRequirement(name = "bearerAuth"))
-    public @ResponseBody CompletionStage<UpdateOutboxReply>
-    updateOutbox(@RequestBody UpdateOutboxRequest request)
+    public @ResponseBody CompletionStage<StopWorkerReply>
+    updateOutbox(@RequestBody StopWorkerRequest request)
     {
         logger.info("delegating updateOutbox to implementation service");
-        return implementation.updateOutbox(request);
+        return implementation.stopWorker(request);
     }
 
     @PostMapping(
         value = "/destroy-outbox",
         produces = MediaType.APPLICATION_JSON_VALUE)
     //@Operation(security = @SecurityRequirement(name = "bearerAuth"))
-    public @ResponseBody CompletionStage<DestroyOutboxReply>
-    destroyOutbox(@RequestBody DestroyOutboxRequest request)
+    public @ResponseBody CompletionStage<QueryWorkerReply>
+    destroyOutbox(@RequestBody QueryWorkerRequest request)
     {
         logger.info("delegating updateOutbox to implementation service");
-        return implementation.destroyOutbox(request);
+        return implementation.queryWorker(request);
     }
 
     @PostMapping(

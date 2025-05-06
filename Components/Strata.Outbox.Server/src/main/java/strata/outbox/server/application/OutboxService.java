@@ -7,7 +7,6 @@ package strata.outbox.server.application;
 import strata.outbox.service.event.IOutboxEventSender;
 import strata.outbox.service.event.OutboxEvent;
 import strata.outbox.service.requestreply.*;
-import strata.outbox.service.requestreply.OutboxData;
 import jakarta.inject.Inject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,8 +43,8 @@ class OutboxService
     }
 
     @Override
-    public CompletionStage<CreateOutboxReply>
-    createOutbox(CreateOutboxRequest request)
+    public CompletionStage<StartWorkerReply>
+    startWorker(StartWorkerRequest request)
     {
         logger.debug("createOutbox(" + request.getRequestId() + ")");
         return
@@ -59,8 +58,8 @@ class OutboxService
     }
 
     @Override
-    public CompletionStage<UpdateOutboxReply>
-    updateOutbox(UpdateOutboxRequest request)
+    public CompletionStage<StopWorkerReply>
+    stopWorker(StopWorkerRequest request)
     {
         logger.debug("updateOutbox(" + request.getRequestId() + ")");
         return
@@ -75,8 +74,8 @@ class OutboxService
     }
 
     @Override
-    public CompletionStage<DestroyOutboxReply>
-    destroyOutbox(DestroyOutboxRequest request)
+    public CompletionStage<QueryWorkerReply>
+    queryWorker(QueryWorkerRequest request)
     {
         logger.debug("destroyOutbox(" + request.getRequestId() + ")");
         return
@@ -137,8 +136,8 @@ class OutboxService
         logger.error("Observing OutboxEvents and caught exception: " + e.getMessage());
     }
 
-    protected CreateOutboxRequest
-    validate(CreateOutboxRequest request)
+    protected StartWorkerRequest
+    validate(StartWorkerRequest request)
     {
         logger.debug("<create> validate(" + request.getRequestId() + ")");
 
@@ -148,8 +147,8 @@ class OutboxService
         return request;
     }
 
-    protected UpdateOutboxRequest
-    validate(UpdateOutboxRequest request)
+    protected StopWorkerRequest
+    validate(StopWorkerRequest request)
     {
         logger.debug("<update> validate(" + request.getRequestId() + ")");
 
@@ -159,8 +158,8 @@ class OutboxService
         return request;
     }
 
-    protected DestroyOutboxRequest
-    validate(DestroyOutboxRequest request)
+    protected QueryWorkerRequest
+    validate(QueryWorkerRequest request)
     {
         logger.debug("<destroy> validate(" + request.getRequestId() + ")");
 
@@ -182,21 +181,21 @@ class OutboxService
     }
 
     protected CreateOutboxContext
-    mapToContext(CreateOutboxRequest request)
+    mapToContext(StartWorkerRequest request)
     {
         logger.debug("<create> mapToContext(" + request.getRequestId() + ")");
         return new CreateOutboxContext(request);
     }
 
     protected UpdateOutboxContext
-    mapToContext(UpdateOutboxRequest request)
+    mapToContext(StopWorkerRequest request)
     {
         logger.debug("<update> mapToContext(" + request.getRequestId() + ")");
         return new UpdateOutboxContext(request);
     }
 
     protected DestroyOutboxContext
-    mapToContext(DestroyOutboxRequest request)
+    mapToContext(QueryWorkerRequest request)
     {
         logger.debug("<destroy> mapToContext(" + request.getRequestId() + ")");
         return new DestroyOutboxContext(request);
@@ -336,7 +335,7 @@ class OutboxService
         return context;
     }
 
-    private CreateOutboxReply
+    private StartWorkerReply
     buildReply(CreateOutboxContext context)
     {
         Outbox created =
@@ -347,24 +346,24 @@ class OutboxService
         logger.info("building successful reply");
 
         return
-            new CreateOutboxReply(context.getRequest())
+            new StartWorkerReply(context.getRequest())
                 .setSuccess(true)
                 .setSuccessMessage("Outbox: " + created.getPrimaryId() + " created")
                 .setCreatedOutbox(mapper.map(created,OutboxData.class));
     }
 
-    private CreateOutboxReply
-    buildReply(Throwable e,CreateOutboxRequest request)
+    private StartWorkerReply
+    buildReply(Throwable e,StartWorkerRequest request)
     {
         logger.info("building exception reply: " + e.getMessage());
         return
-            new CreateOutboxReply(request)
+            new StartWorkerReply(request)
                 .setSuccess(false)
                 .setFailureMessage("Unable to create outbox")
                 .setException(ExceptionData.of(e));
     }
 
-    private UpdateOutboxReply
+    private StopWorkerReply
     buildReply(UpdateOutboxContext context)
     {
         Outbox created =
@@ -375,24 +374,24 @@ class OutboxService
         logger.info("building successful reply");
 
         return
-            new UpdateOutboxReply(context.getRequest())
+            new StopWorkerReply(context.getRequest())
                 .setSuccess(true)
                 .setSuccessMessage("Outbox: " + created.getPrimaryId() + " created")
                 .setUpdatedOutbox(mapper.map(created,OutboxData.class));
     }
 
-    private UpdateOutboxReply
-    buildReply(Throwable e,UpdateOutboxRequest request)
+    private StopWorkerReply
+    buildReply(Throwable e,StopWorkerRequest request)
     {
         logger.info("building exception reply: " + e.getMessage());
         return
-            new UpdateOutboxReply(request)
+            new StopWorkerReply(request)
                 .setSuccess(false)
                 .setFailureMessage("Unable to create outbox")
                 .setException(ExceptionData.of(e));
     }
 
-    private DestroyOutboxReply
+    private QueryWorkerReply
     buildReply(DestroyOutboxContext context)
     {
         Outbox destroyed =
@@ -403,18 +402,18 @@ class OutboxService
         logger.info("building successful reply");
 
         return
-            new DestroyOutboxReply(context.getRequest())
+            new QueryWorkerReply(context.getRequest())
                 .setSuccess(true)
                 .setSuccessMessage("Outbox: " + destroyed.getPrimaryId() + " destroyed")
                 .setDestroyedOutbox(mapper.map(destroyed,OutboxData.class));
     }
 
-    private DestroyOutboxReply
-    buildReply(Throwable e,DestroyOutboxRequest request)
+    private QueryWorkerReply
+    buildReply(Throwable e,QueryWorkerRequest request)
     {
         logger.info("building exception reply: " + e.getMessage());
         return
-            new DestroyOutboxReply(request)
+            new QueryWorkerReply(request)
                 .setSuccess(false)
                 .setFailureMessage("Unable to destroy outbox")
                 .setException(ExceptionData.of(e));

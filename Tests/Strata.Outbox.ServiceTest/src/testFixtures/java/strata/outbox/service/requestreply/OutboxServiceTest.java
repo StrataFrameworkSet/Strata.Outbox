@@ -4,7 +4,6 @@
 
 package strata.outbox.service.requestreply;
 
-import strata.outbox.service.requestreply.OutboxData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -19,10 +18,10 @@ class OutboxServiceTest
     public void
     testCreateOutbox()
     {
-        CreateOutboxReply reply =
+        StartWorkerReply reply =
             getSubject()
-                .createOutbox(
-                    new CreateOutboxRequest()
+                .startWorker(
+                    new StartWorkerRequest()
                         .setOutbox(
                             new CreateOutboxData()
                                 .setFoo("XXX-YYYYY-ZZZZZZZ")))
@@ -39,10 +38,10 @@ class OutboxServiceTest
     public void
     testUpdateOutbox()
     {
-        CreateOutboxReply createReply =
+        StartWorkerReply createReply =
             getSubject()
-                .createOutbox(
-                    new CreateOutboxRequest()
+                .startWorker(
+                    new StartWorkerRequest()
                         .setOutbox(
                             new CreateOutboxData()
                                 .setFoo("XXX-YYYYY-ZZZZZZZ")))
@@ -59,10 +58,10 @@ class OutboxServiceTest
         Assertions.assertNotNull(id);
         Assertions.assertEquals("XXX-YYYYY-ZZZZZZZ",entity.getFoo());
 
-        UpdateOutboxReply updateReply =
+        StopWorkerReply updateReply =
             getSubject()
-                .updateOutbox(
-                    new UpdateOutboxRequest()
+                .stopWorker(
+                    new StopWorkerRequest()
                         .setOutbox(
                             new UpdateOutboxData()
                                 .setOutboxId(id)
@@ -81,10 +80,10 @@ class OutboxServiceTest
     public void
     testDestroyOutbox()
     {
-        CreateOutboxReply createReply =
+        StartWorkerReply createReply =
             getSubject()
-                .createOutbox(
-                    new CreateOutboxRequest()
+                .startWorker(
+                    new StartWorkerRequest()
                         .setOutbox(
                             new CreateOutboxData()
                                 .setFoo("XXX-YYYYY-ZZZZZZZ")))
@@ -101,10 +100,10 @@ class OutboxServiceTest
         Assertions.assertNotNull(id);
         Assertions.assertEquals("XXX-YYYYY-ZZZZZZZ",entity.getFoo());
 
-        DestroyOutboxReply destroyReply =
+        QueryWorkerReply destroyReply =
             getSubject()
-                .destroyOutbox(
-                    new DestroyOutboxRequest()
+                .queryWorker(
+                    new QueryWorkerRequest()
                         .setOutboxId(id))
                 .toCompletableFuture()
                 .join();
@@ -119,10 +118,10 @@ class OutboxServiceTest
     public void
     testFindOutbox()
     {
-        CreateOutboxReply createReply =
+        StartWorkerReply createReply =
             getSubject()
-                .createOutbox(
-                    new CreateOutboxRequest()
+                .startWorker(
+                    new StartWorkerRequest()
                         .setOutbox(
                             new CreateOutboxData()
                                 .setFoo("XXX-YYYYY-ZZZZZZZ")))

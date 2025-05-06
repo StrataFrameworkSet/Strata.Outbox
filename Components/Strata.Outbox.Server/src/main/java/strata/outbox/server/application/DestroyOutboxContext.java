@@ -4,18 +4,18 @@
 
 package strata.outbox.server.application;
 
-import strata.outbox.service.requestreply.DestroyOutboxRequest;
+import strata.outbox.service.requestreply.QueryWorkerRequest;
 
 import java.util.Optional;
 
 public
 class DestroyOutboxContext
 {
-    private DestroyOutboxRequest request;
+    private QueryWorkerRequest request;
     private Optional<Outbox> destroyedOutbox;
 
     public
-    DestroyOutboxContext(DestroyOutboxRequest req)
+    DestroyOutboxContext(QueryWorkerRequest req)
     {
         request = req;
         destroyedOutbox = Optional.empty();
@@ -34,7 +34,7 @@ class DestroyOutboxContext
         return setDestroyedOutbox(Optional.of(updated));
     }
 
-    public DestroyOutboxRequest
+    public QueryWorkerRequest
     getRequest() { return request; }
 
     public Long

@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// DestroyOutboxReply.java
+// QueryWorkerReply.java
 //////////////////////////////////////////////////////////////////////////////
 
 package strata.outbox.service.requestreply;
@@ -11,83 +11,83 @@ import java.time.Instant;
 import java.util.UUID;
 
 public
-class FindOutboxReply
+class QueryWorkerReply
     extends AbstractServiceReply
 {
-    private OutboxData foundOutbox;
+    private Boolean working;
 
     public
-    FindOutboxReply()
+    QueryWorkerReply()
     {
         super();
-        foundOutbox = null;
+        working = Boolean.FALSE;
     }
 
     public
-    FindOutboxReply(FindOutboxRequest originatingRequest)
+    QueryWorkerReply(QueryWorkerRequest originatingRequest)
     {
         super(originatingRequest);
-        foundOutbox = null;
+        working = Boolean.FALSE;
     }
 
     @Override
-    public FindOutboxReply
+    public QueryWorkerReply
     setReplyId(UUID replyId)
     {
-        return (FindOutboxReply)super.setReplyId(replyId);
+        return (QueryWorkerReply)super.setReplyId(replyId);
     }
 
     @Override
-    public FindOutboxReply
+    public QueryWorkerReply
     setOriginatingRequestId(UUID requestId)
     {
-        return (FindOutboxReply)super.setOriginatingRequestId(requestId);
+        return (QueryWorkerReply)super.setOriginatingRequestId(requestId);
     }
 
     @Override
-    public FindOutboxReply
+    public QueryWorkerReply
     setTimestamp(Instant timestamp)
     {
-        return (FindOutboxReply)super.setTimestamp(timestamp);
+        return (QueryWorkerReply)super.setTimestamp(timestamp);
     }
 
     @Override
-    public FindOutboxReply
+    public QueryWorkerReply
     setSuccess(boolean success)
     {
-        return (FindOutboxReply)super.setSuccess(success);
+        return (QueryWorkerReply)super.setSuccess(success);
     }
 
     @Override
-    public FindOutboxReply
+    public QueryWorkerReply
     setSuccessMessage(String successMessage)
     {
-        return (FindOutboxReply)super.setSuccessMessage(successMessage);
+        return (QueryWorkerReply)super.setSuccessMessage(successMessage);
     }
 
     @Override
-    public FindOutboxReply
+    public QueryWorkerReply
     setFailureMessage(String failureMessage)
     {
-        return (FindOutboxReply)super.setFailureMessage(failureMessage);
+        return (QueryWorkerReply)super.setFailureMessage(failureMessage);
     }
 
     @Override
-    public FindOutboxReply
+    public QueryWorkerReply
     setException(ExceptionData exception)
     {
-        return (FindOutboxReply)super.setException(exception);
+        return (QueryWorkerReply)super.setException(exception);
     }
 
-    public FindOutboxReply
-    setFoundOutbox(OutboxData created)
+    public QueryWorkerReply
+    setWorking(Boolean working)
     {
-        foundOutbox = created;
+        this.working = working;
         return this;
     }
 
-    public OutboxData
-    getFoundOutbox() { return foundOutbox; }
+    public Boolean
+    getWorking() { return working; }
 }
 
 //////////////////////////////////////////////////////////////////////////////

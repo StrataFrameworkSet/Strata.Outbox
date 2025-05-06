@@ -4,8 +4,6 @@
 
 package strata.outbox.server.application;
 
-import strata.outbox.service.requestreply.FindOutboxRequest;
-
 import java.util.Optional;
 
 public
