@@ -38,109 +38,36 @@ class OutboxServiceTest
                 .toCompletableFuture()
                 .join();
 
-        OutboxData entity = null;
-        Long id = null;
-
         Assertions.assertTrue(startReply.isSuccess(),startReply.getFailureMessage());
-        entity = startReply.getCreatedOutbox();
-        id = entity.getOutboxId();
-        Assertions.assertNotNull(entity);
-        Assertions.assertNotNull(id);
-        Assertions.assertEquals("XXX-YYYYY-ZZZZZZZ",entity.getFoo());
 
-        StopWorkerReply updateReply =
+        StopWorkerReply stopReply =
             getSubject()
-                .stopWorker(
-                    new StopWorkerRequest()
-                        .setOutbox(
-                            new UpdateOutboxData()
-                                .setOutboxId(id)
-                                .setFoo("AAA-BBBBB-CCCCCCC")))
+                .stopWorker(new StopWorkerRequest())
                 .toCompletableFuture()
                 .join();
 
-        Assertions.assertTrue(updateReply.isSuccess(),updateReply.getFailureMessage());
-        entity = updateReply.getUpdatedOutbox();
-        Assertions.assertNotNull(entity);
-        Assertions.assertEquals(id,entity.getOutboxId());
-        Assertions.assertEquals("AAA-BBBBB-CCCCCCC",entity.getFoo());
+        Assertions.assertTrue(stopReply.isSuccess(),stopReply.getFailureMessage());
     }
 
     @Test
     public void
-    testDestroyOutbox()
+    testQueryWorker()
     {
         StartWorkerReply createReply =
             getSubject()
-                .startWorker(
-                    new StartWorkerRequest()
-                        .setOutbox(
-                            new CreateOutboxData()
-                                .setFoo("XXX-YYYYY-ZZZZZZZ")))
+                .startWorker(new StartWorkerRequest())
                 .toCompletableFuture()
                 .join();
-
-        OutboxData entity = null;
-        Long id = null;
 
         Assertions.assertTrue(createReply.isSuccess(),createReply.getFailureMessage());
-        entity = createReply.getCreatedOutbox();
-        id = entity.getOutboxId();
-        Assertions.assertNotNull(entity);
-        Assertions.assertNotNull(id);
-        Assertions.assertEquals("XXX-YYYYY-ZZZZZZZ",entity.getFoo());
 
-        QueryWorkerReply destroyReply =
+        QueryWorkerReply queryReply =
             getSubject()
-                .queryWorker(
-                    new QueryWorkerRequest()
-                        .setOutboxId(id))
+                .queryWorker(new QueryWorkerRequest())
                 .toCompletableFuture()
                 .join();
 
-        Assertions.assertTrue(destroyReply.isSuccess(),destroyReply.getFailureMessage());
-        entity = destroyReply.getDestroyedOutbox();
-        Assertions.assertNotNull(entity);
-        Assertions.assertEquals(id,entity.getOutboxId());
-    }
-
-    @Test
-    public void
-    testFindOutbox()
-    {
-        StartWorkerReply createReply =
-            getSubject()
-                .startWorker(
-                    new StartWorkerRequest()
-                        .setOutbox(
-                            new CreateOutboxData()
-                                .setFoo("XXX-YYYYY-ZZZZZZZ")))
-                .toCompletableFuture()
-                .join();
-
-        OutboxData entity = null;
-        Long id = null;
-
-        Assertions.assertTrue(createReply.isSuccess(),createReply.getFailureMessage());
-        entity = createReply.getCreatedOutbox();
-        id = entity.getOutboxId();
-        Assertions.assertNotNull(entity);
-        Assertions.assertNotNull(id);
-        Assertions.assertEquals("XXX-YYYYY-ZZZZZZZ",entity.getFoo());
-
-        FindOutboxReply findReply =
-            getSubject()
-                .findOutbox(
-                    new FindOutboxRequest()
-                        .setOutboxId(id))
-                .toCompletableFuture()
-                .join();
-
-        Assertions.assertTrue(findReply.isSuccess(),findReply.getFailureMessage());
-        entity = findReply.getFoundOutbox();
-        Assertions.assertNotNull(entity);
-        Assertions.assertEquals(id,entity.getOutboxId());
-        Assertions.assertEquals("XXX-YYYYY-ZZZZZZZ",entity.getFoo());
+        Assertions.assertTrue(queryReply.isSuccess(),queryReply.getFailureMessage());
     }
 
     protected abstract IOutboxService

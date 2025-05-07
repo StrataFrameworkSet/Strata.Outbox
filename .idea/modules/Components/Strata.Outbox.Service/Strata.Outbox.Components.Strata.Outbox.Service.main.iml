@@ -15,22 +15,18 @@
   <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/../../../../Components/Strata.Outbox.Service/build/classes/java/main" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../../../Components/Strata.Outbox.Service/build/generated-java">
-      <sourceFolder url="file://$MODULE_DIR$/../../../../Components/Strata.Outbox.Service/build/generated-java" isTestSource="false" />
-    </content>
     <content url="file://$MODULE_DIR$/../../../../Components/Strata.Outbox.Service/src/main">
       <sourceFolder url="file://$MODULE_DIR$/../../../../Components/Strata.Outbox.Service/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../../../Components/Strata.Outbox.Service/src/main/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/../../../../Components/Strata.Outbox.Service/src/main/schema" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: strata.foundation:strata-foundation-core:1.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-core:6.2.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-web:3.1.5" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.avro:avro:1.11.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.inject:guice:6.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.jasypt:jasypt:1.9.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.avro:avro:1.11.1" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.3" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.15.3" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-api:2.20.0" level="project" />
@@ -48,13 +44,13 @@
     <orderEntry type="library" name="Gradle: org.springframework:spring-webmvc:6.0.13" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-web:6.0.13" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-tomcat:3.1.5" level="project" />
+    <orderEntry type="library" name="Gradle: javax.inject:javax.inject:1" level="project" />
+    <orderEntry type="library" name="Gradle: aopalliance:aopalliance:1.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.guava:guava:31.0.1-jre" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.15.3" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.15.3" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.commons:commons-compress:1.21" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:2.0.9" level="project" />
-    <orderEntry type="library" name="Gradle: javax.inject:javax.inject:1" level="project" />
-    <orderEntry type="library" name="Gradle: aopalliance:aopalliance:1.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.guava:guava:31.0.1-jre" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.15.3" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-jcl:6.1.2" level="project" />
     <orderEntry type="library" name="Gradle: io.micrometer:micrometer-commons:1.12.1" level="project" />

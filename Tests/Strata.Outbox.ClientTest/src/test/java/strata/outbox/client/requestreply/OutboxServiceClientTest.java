@@ -37,7 +37,7 @@ class OutboxServiceClientTest
     public void
     testStartWorker()
     {
-        super.testCreateOutbox();
+        super.testStartWorker();
     }
 
     @Test
@@ -51,15 +51,7 @@ class OutboxServiceClientTest
     public void
     testQueryWorker()
     {
-        super.testDestroyOutbox();
-    }
-
-    @Override
-    @Test
-    public void
-    testFindOutbox()
-    {
-        super.testFindOutbox();
+        super.testQueryWorker();
     }
 
     @Override
