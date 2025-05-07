@@ -16,7 +16,7 @@ class ApplicationConfiguration
 {
     @Bean
     public IOutboxService
-    sessionService(IOutboxWorker worker)
+    outboxService(IOutboxWorker worker)
     {
         return new OutboxService(worker);
     }

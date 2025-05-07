@@ -46,6 +46,7 @@ class PlatformConfiguration
         executor.setQueueCapacity(256);
         return executor;
     }
+
     @Bean
     @Scope("singleton")
     public IOutboxWorker

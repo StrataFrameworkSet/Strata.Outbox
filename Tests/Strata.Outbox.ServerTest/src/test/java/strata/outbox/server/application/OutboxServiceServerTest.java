@@ -4,6 +4,7 @@
 
 package strata.outbox.server.application;
 
+import strata.outbox.server.shared.TestConfiguration;
 import strata.outbox.service.requestreply.IOutboxService;
 import strata.outbox.service.requestreply.OutboxServiceTest;
 import org.junit.jupiter.api.*;
@@ -18,7 +19,7 @@ class OutboxServiceServerTest
     extends OutboxServiceTest
 {
     private static ApplicationContext context;
-    private IOutboxService        subject;
+    private IOutboxService            subject;
 
     @BeforeAll
     public static void

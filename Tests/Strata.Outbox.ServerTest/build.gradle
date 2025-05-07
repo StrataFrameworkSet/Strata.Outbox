@@ -13,6 +13,7 @@ version '1.0-SNAPSHOT'
 
 dependencies {
     testImplementation project(':Components:Strata.Outbox.Server')
+    testImplementation(testFixtures(project(':Tests:Strata.Outbox.CoreTest')))
     testImplementation(testFixtures(project(':Tests:Strata.Outbox.ServiceTest')))
     testImplementation "org.springframework.boot:spring-boot-starter:$springboot_version"
     testImplementation "org.springframework.boot:spring-boot-starter-test:$springboot_version"

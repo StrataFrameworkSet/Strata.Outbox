@@ -15,7 +15,8 @@ class DebeziumPropertiesProvider
 {
     private final IConfiguration configuration;
 
-    public DebeziumPropertiesProvider(IConfiguration configuration)
+    public
+    DebeziumPropertiesProvider(IConfiguration configuration)
     {
         this.configuration = configuration;
     }
@@ -34,7 +35,7 @@ class DebeziumPropertiesProvider
             "org.apache.kafka.connect.storage.FileOffsetBackingStore");
         properties.setProperty(
             "offset.storage.file.filename",
-            getRequired("debezium.offset.storage.file"));
+            getRequired("debezium.offset.storage.file.filename"));
         properties.setProperty(
             "offset.flush.interval.ms",
             getOptional("debezium.offset.flush.interval.ms","60000"));
