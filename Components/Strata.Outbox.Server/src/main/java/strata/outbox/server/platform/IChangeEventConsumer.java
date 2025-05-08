@@ -1,17 +1,16 @@
 /// ///////////////////////////////////////////////////////////////////////////
-// IChangeEventToOutboxEventMapper.java
+// IChangeEventConsumer.java
 //////////////////////////////////////////////////////////////////////////////
 
 package strata.outbox.server.platform;
 
 import io.debezium.engine.ChangeEvent;
-import strata.outbox.core.repository.OutboxEvent;
+import io.debezium.engine.DebeziumEngine.ChangeConsumer;
+import org.springframework.stereotype.Service;
 
+@Service
 public
-interface IChangeEventToOutboxEventMapper
-{
-    OutboxEvent
-    map(ChangeEvent<String,String> event);
-}
+interface IChangeEventConsumer
+    extends ChangeConsumer<ChangeEvent<String,String>> {}
 
 //////////////////////////////////////////////////////////////////////////////

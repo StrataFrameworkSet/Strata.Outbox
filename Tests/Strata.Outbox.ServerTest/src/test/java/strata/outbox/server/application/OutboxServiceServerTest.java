@@ -13,7 +13,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.web.context.request.RequestContextHolder;
 import strata.server.spring.inject.RequestAttributeMap;
 
-@Tag("CommitStage")
+@Tag("IntegrationStage")
 public
 class OutboxServiceServerTest
     extends OutboxServiceTest

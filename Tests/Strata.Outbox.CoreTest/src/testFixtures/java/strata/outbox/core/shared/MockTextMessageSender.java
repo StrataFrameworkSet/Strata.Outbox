@@ -6,6 +6,8 @@ package strata.outbox.core.shared;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import strata.server.core.notification.ITextMessage;
 import strata.server.core.notification.ITextMessageSender;
 import strata.server.core.notification.SerializableTextMessage;
@@ -19,12 +21,14 @@ class MockTextMessageSender
 {
     private final ObjectMapper       mapper;
     private final List<ITextMessage> messages;
+    private final Logger             logger;
 
     public
     MockTextMessageSender()
     {
         this.mapper = new ObjectMapperProvider().get();
         this.messages = new ArrayList<>();
+        this.logger = LogManager.getLogger(this.getClass());
     }
 
     @Override
@@ -54,10 +58,8 @@ class MockTextMessageSender
     {
         try
         {
-            System
-                .out
-                .println(
-                    "Sending text message: " +
+            logger.info(
+                    "Sending text message: {}",
                         mapper.writeValueAsString(
                             SerializableTextMessage.of(message)));
             messages.add(message);

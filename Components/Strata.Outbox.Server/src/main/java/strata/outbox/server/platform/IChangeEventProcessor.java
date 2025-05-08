@@ -1,17 +1,20 @@
 /// ///////////////////////////////////////////////////////////////////////////
-// IChangeEventToOutboxEventMapper.java
+// IChangeEventProcessor.java
 //////////////////////////////////////////////////////////////////////////////
 
 package strata.outbox.server.platform;
 
 import io.debezium.engine.ChangeEvent;
-import strata.outbox.core.repository.OutboxEvent;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Service
 public
-interface IChangeEventToOutboxEventMapper
+interface IChangeEventProcessor
 {
-    OutboxEvent
-    map(ChangeEvent<String,String> event);
+    @Transactional
+    void
+    process(ChangeEvent<String,String> event);
 }
 
 //////////////////////////////////////////////////////////////////////////////

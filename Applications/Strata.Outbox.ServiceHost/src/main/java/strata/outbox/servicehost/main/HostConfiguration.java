@@ -4,60 +4,50 @@
 
 package strata.outbox.servicehost.main;
 
-import strata.outbox.server.application.ApplicationConfiguration;
-import strata.outbox.server.application.IOutboxWorker;
-import strata.outbox.server.domain.DomainConfiguration;
-import strata.outbox.server.platform.PlatformConfiguration;
-import org.springdoc.core.models.GroupedOpenApi;
-import org.springdoc.core.properties.SpringDocConfigProperties;
-import org.springdoc.core.providers.ObjectMapperProvider;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.scheduling.annotation.EnableAsync;
+import strata.outbox.core.receiver.EmailMessageOutboxEventReceiver;
+import strata.outbox.core.receiver.IOutboxEventReceiverMapProvider;
+import strata.outbox.core.receiver.TextMessageOutboxEventReceiver;
+import strata.outbox.core.shared.MockEmailMessageSender;
+import strata.outbox.core.shared.MockTextMessageSender;
+import strata.outbox.server.configuration.StrataOutboxServerConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.context.request.RequestScope;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import strata.foundation.core.configuration.IConfiguration;
 import strata.foundation.core.inject.ApplicationConfigurationProvider;
-import strata.foundation.spring.mapper.StrataModelResolver;
-import strata.foundation.spring.mapper.StrataObjectMapperProvider;
-import strata.server.spring.service.ServiceConfiguration;
+import strata.server.core.notification.IEmailMessage;
+import strata.server.core.notification.ITextMessage;
+
+import java.util.Map;
 
 @Configuration
 @EnableTransactionManagement
-@Import({
-    ApplicationConfiguration.class,
-    DomainConfiguration.class,
-    PlatformConfiguration.class,
-    ServiceConfiguration.class,
-    SpringDocConfigProperties.class,
-    StrataModelResolver.class})
+@EnableAsync
 public
 class HostConfiguration
+    extends StrataOutboxServerConfiguration
 {
+    @Override
     @Bean
-    public InitializingBean
-    initialize()
+    public IOutboxEventReceiverMapProvider
+    receiverMapProvider(IConfiguration configuration)
     {
         return
             () ->
-                SecurityContextHolder
-                    .setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
-    }
-
-    @Bean
-    public BeanFactoryPostProcessor
-    beanFactoryPostProcessor()
-    {
-        return
-            factory ->
-                factory.registerScope(
-                    "request",
-                    new RequestScope());
+                Map.of(
+                    IEmailMessage
+                        .class
+                        .getSimpleName(),
+                    new EmailMessageOutboxEventReceiver(
+                        new MockEmailMessageSender()),
+                    ITextMessage
+                        .class
+                        .getSimpleName(),
+                    new TextMessageOutboxEventReceiver(
+                        new MockTextMessageSender()));
     }
 
     @Bean

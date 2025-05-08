@@ -10,6 +10,7 @@ import io.debezium.engine.format.Json;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springdoc.core.properties.SpringDocConfigProperties;
 import org.springdoc.core.providers.ObjectMapperProvider;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import strata.foundation.spring.mapper.StrataObjectMapperProvider;
 import strata.outbox.core.repository.IOutboxEventRepository;
@@ -31,11 +32,13 @@ import io.debezium.engine.DebeziumEngine.Builder;
 
 @Configuration
 @EnableTransactionManagement
+@EnableAsync
 public
 class PlatformConfiguration
 {
 
     @Bean("outbox-worker")
+    @Scope("singleton")
     public ThreadPoolTaskExecutor
     executor()
     {
@@ -52,13 +55,13 @@ class PlatformConfiguration
     public IOutboxWorker
     outboxWorker(
         Builder<ChangeEvent<String,String>> builder,
-        IOutboxEventRouter                  router,
-        IOutboxEventRepository              repository)
+        IChangeEventProcessor               processor)
     {
-        return new DebeziumOutboxWorker(builder,router,repository);
+        return new DebeziumOutboxWorker(builder,processor);
     }
 
     @Bean
+    @Scope("singleton")
     public Builder<ChangeEvent<String,String>>
     builder(IConfiguration configuration)
     {
@@ -66,6 +69,14 @@ class PlatformConfiguration
             DebeziumEngine
                 .create(Json.class)
                 .using(new DebeziumPropertiesProvider(configuration).get());
+    }
+
+    @Bean
+    @Scope("singleton")
+    public IChangeEventProcessor
+    changeEventProcessor(IOutboxEventRouter router,IOutboxEventRepository repository)
+    {
+        return new RoutedChangeEventProcessor(router,repository);
     }
 
     @Bean
@@ -86,6 +97,7 @@ class PlatformConfiguration
     }
 
     @Bean
+    @Scope("singleton")
     public ISpringUnitOfWorkManager
     unitOfWorkManager(JpaUnitOfWork unitOfWork)
     {
@@ -93,6 +105,7 @@ class PlatformConfiguration
     }
 
     @Bean
+    @Scope("singleton")
     public JpaUnitOfWork
     unitOfWork(EntityManagerFactory factory)
     {
@@ -119,14 +132,6 @@ class PlatformConfiguration
     objectMapperProvider(SpringDocConfigProperties properties)
     {
         return new StrataObjectMapperProvider(properties);
-    }
-
-    @Bean
-    @Scope("singleton")
-    public SpringDocConfigProperties
-    springDocConfigProperties()
-    {
-        return new SpringDocConfigProperties();
     }
 }
 

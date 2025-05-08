@@ -8,6 +8,9 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Scope;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import strata.foundation.core.configuration.IConfiguration;
 import strata.outbox.core.receiver.EmailMessageOutboxEventReceiver;
 import strata.outbox.core.receiver.IOutboxEventReceiverMapProvider;
@@ -26,6 +29,8 @@ import strata.server.core.notification.TeleSignMessageSender;
 import java.util.Map;
 
 @Configuration
+@EnableTransactionManagement
+@EnableAsync
 @Import({
     ApplicationConfiguration.class,
     DomainConfiguration.class,
@@ -35,6 +40,7 @@ public
 class StrataOutboxServerConfiguration
 {
     @Bean
+    @Scope("singleton")
     public IOutboxEventReceiverMapProvider
     receiverMapProvider(IConfiguration configuration)
     {

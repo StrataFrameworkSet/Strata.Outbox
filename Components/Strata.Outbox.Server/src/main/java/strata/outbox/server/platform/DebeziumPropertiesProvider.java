@@ -72,6 +72,7 @@ class DebeziumPropertiesProvider
         properties.setProperty(
             "skipped.operations",
             getOptional("debezium.skipped.operations","u,d,t"));
+        properties.setProperty("tombstone.on.delete","false");
 
         // Table inclusion/exclusion configs
         properties.setProperty(
@@ -82,6 +83,7 @@ class DebeziumPropertiesProvider
         properties.setProperty(
             "topic.prefix",
             getOptional("debezium.topic.prefix","outbox"));
+
         return properties;
     }
 

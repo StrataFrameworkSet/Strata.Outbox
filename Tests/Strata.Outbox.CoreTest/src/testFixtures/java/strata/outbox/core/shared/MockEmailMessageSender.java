@@ -6,6 +6,8 @@ package strata.outbox.core.shared;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import strata.server.core.notification.IEmailMessage;
 import strata.server.core.notification.IEmailMessageSender;
 import strata.server.core.notification.SerializableEmailMessage;
@@ -17,14 +19,16 @@ public
 class MockEmailMessageSender
     implements IEmailMessageSender
 {
-    private final ObjectMapper mapper;
+    private final ObjectMapper        mapper;
     private final List<IEmailMessage> messages;
+    private final Logger              logger;
 
     public
     MockEmailMessageSender()
     {
         this.mapper = new ObjectMapperProvider().get();
         messages = new ArrayList<>();
+        logger = LogManager.getLogger(this.getClass());
     }
 
     @Override
@@ -54,10 +58,8 @@ class MockEmailMessageSender
     {
         try
         {
-            System
-                .out
-                .println(
-                    "Sending email message: " +
+            logger.info(
+                    "Sending email message: {}",
                         mapper.writeValueAsString(
                             SerializableEmailMessage.of(message)));
             messages.add(message);

@@ -156,6 +156,47 @@ class OutboxEventRepositoryTest
                             target.existsById(actual.get().getId())));
 
     }
+
+
+    @Test
+    public void
+    testSaveMultiple() throws Exception
+    {
+        final AtomicReference<OutboxEvent> expected = new AtomicReference<>();
+        final AtomicReference<OutboxEvent> actual = new AtomicReference<>();
+
+        expected.set(
+            new OutboxEvent()
+                .setSourceId(
+                    UUID
+                        .randomUUID()
+                        .toString())
+                .setSourceType(
+                    IEmailMessage
+                        .class
+                        .getSimpleName())
+                .setEventType(
+                    IEmailMessage
+                        .class
+                        .getSimpleName())
+                .setEventPayload(
+                    mapper.writeValueAsString(
+                        new SerializableEmailMessage()
+                            .setSender(new EmailAddress("johnliebenau@gmail.com"))
+                            .setRecipients(
+                                Set.of(new EmailAddress("johnliebenau@gmail.com")))
+                            .setSubject("Test Subject")
+                            .setContent("This is a test."))));
+
+        transaction.executeWithoutResult(
+            status ->
+                {
+                    for (int i=0;i<5;i++)
+                        target.save(expected.get());
+                });
+
+    }
+
 }
 
 //////////////////////////////////////////////////////////////////////////////

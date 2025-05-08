@@ -4,6 +4,8 @@
 
 package strata.outbox.server.shared;
 
+import org.springdoc.core.properties.SpringDocConfigProperties;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.context.annotation.*;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -12,6 +14,7 @@ import strata.outbox.core.receiver.EmailMessageOutboxEventReceiver;
 import strata.outbox.core.receiver.IOutboxEventReceiverMapProvider;
 import strata.outbox.core.receiver.TextMessageOutboxEventReceiver;
 import strata.outbox.core.shared.MockTextMessageSender;
+import strata.outbox.server.application.IOutboxWorker;
 import strata.outbox.server.configuration.StrataOutboxServerConfiguration;
 import strata.foundation.core.configuration.IConfiguration;
 import strata.foundation.core.inject.ApplicationConfigurationProvider;
@@ -49,6 +52,14 @@ class TestConfiguration
                         new MockTextMessageSender()));
 
     }
+
+    @Bean
+    public InitializingBean
+    initialize(IOutboxWorker worker)
+    {
+        return () -> {};
+    }
+
     @Bean
     public BeanFactoryPostProcessor
     beanFactoryPostProcessor()
@@ -69,7 +80,12 @@ class TestConfiguration
             new ApplicationConfigurationProvider("test").get();
     }
 
-
+    @Bean
+    public SpringDocConfigProperties
+    springDocConfigProperties()
+    {
+        return new SpringDocConfigProperties();
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////
