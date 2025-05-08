@@ -93,7 +93,22 @@ class OutboxService
     {
         logger.debug("starting worker");
         worker.start();
-        return context.setWorking(worker.isWorking());
+
+        for (int i=1;i<=3;i++)
+        {
+            try
+            {
+                context.setWorking(worker.isWorking());
+
+                if (context.isWorking())
+                    return context;
+
+                Thread.sleep(10*i);
+            }
+            catch (InterruptedException e) {}
+        }
+
+        return context;
     }
 
     protected StopWorkerContext
@@ -108,7 +123,6 @@ class OutboxService
     queryWorker(QueryWorkerContext context)
     {
         logger.debug("querying worker");
-        worker.stop();
         return context.setWorking(worker.isWorking());
     }
 

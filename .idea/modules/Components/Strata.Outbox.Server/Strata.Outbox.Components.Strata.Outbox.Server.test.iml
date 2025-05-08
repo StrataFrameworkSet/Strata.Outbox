@@ -36,6 +36,7 @@
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-autoconfigure:3.1.5" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.guice:spring-guice:2.0.3" level="project" />
     <orderEntry type="library" name="Gradle: jakarta.inject:jakarta.inject-api:2.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: io.smallrye:jandex:3.3.0" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-config:6.1.5" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-web:6.1.5" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter:3.1.5" level="project" />
@@ -325,7 +326,6 @@
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.google.code.gson:gson:2.13.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.glassfish.jaxb:jaxb-runtime:4.0.2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.hibernate.common:hibernate-commons-annotations:6.0.6.Final" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: io.smallrye:jandex:3.0.5" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.fasterxml:classmate:1.5.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: net.bytebuddy:byte-buddy:1.12.18" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.github.luben:zstd-jni:1.5.6-4" level="project" />

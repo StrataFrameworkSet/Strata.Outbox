@@ -3,8 +3,9 @@ plugins {
     id "com.google.cloud.tools.jib" version "3.4.2"
 }
 
-configurations {
-    all*.exclude group:'org.springframework.boot', module:'spring-boot-starter-logging'
+configurations.all {
+    exclude group:'org.springframework.boot', module:'spring-boot-starter-logging'
+    exclude group: 'org.jboss.slf4j', module:'slf4j-jboss-logmanager'
 }
 
 sourceSets {

@@ -5,6 +5,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.debezium/debezium-api/3.1.1.Final/268d95007e62e65332e6f1a6ac663538630db328/debezium-api-3.1.1.Final.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.debezium/debezium-api/3.1.1.Final/4cb3d6b1e6d0f68c95db194a0efb836db7d30468/debezium-api-3.1.1.Final-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

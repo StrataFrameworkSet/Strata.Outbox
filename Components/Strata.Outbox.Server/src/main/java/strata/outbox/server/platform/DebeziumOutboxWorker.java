@@ -48,12 +48,12 @@ class DebeziumOutboxWorker
         }
 
         logger.info("Starting outbox worker");
-        engine =
+        setEngine(
             builder
             .notifying(new DebeziumChangeConsumer(processor))
-            .build();
+            .build());
 
-        engine.run();
+        getEngine().run();
     }
 
     @Override
@@ -69,8 +69,8 @@ class DebeziumOutboxWorker
         try
         {
             logger.info("Stopping outbox worker");
-            engine.close();
-            engine = null;
+            getEngine().close();
+            setEngine(null);
         }
         catch (IOException e)
         {
@@ -82,7 +82,19 @@ class DebeziumOutboxWorker
     public boolean
     isWorking()
     {
-        return engine != null;
+        return getEngine() != null;
+    }
+
+    protected synchronized void
+    setEngine(DebeziumEngine<ChangeEvent<String,String>> engine)
+    {
+        this.engine = engine;
+    }
+
+    protected synchronized DebeziumEngine<ChangeEvent<String,String>>
+    getEngine()
+    {
+        return engine;
     }
 }
 
