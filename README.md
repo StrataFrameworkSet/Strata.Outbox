@@ -5,6 +5,11 @@
 
 Transactional Outbox Pattern components and utilities for building robust, scalable enterprise microservices in the Strata Framework Set. This library provides core outbox abstractions, event publishing, reliable messaging, and enterprise patterns for building high-performance distributed applications with guaranteed event delivery.
 
+## Purpose
+- Provide a unified developer experience across popular frameworks, libraries, and language platforms.
+- Reduce impedance mismatch between different technologies.
+- Facilitate rapid development of enterprise-grade applications with best practices and design patterns.
+
 ## Features
 
 - **Transactional Outbox Pattern**: Essential implementation for reliable event publishing with database transaction atomicity
