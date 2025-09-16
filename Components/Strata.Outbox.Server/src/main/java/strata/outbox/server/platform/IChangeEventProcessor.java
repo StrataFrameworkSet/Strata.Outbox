@@ -11,7 +11,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public
 interface IChangeEventProcessor
+    extends AutoCloseable
 {
+    void
+    open()
+        throws Exception;
+
+    void
+    close()
+        throws Exception;
+
     @Transactional
     void
     process(ChangeEvent<String,String> event);

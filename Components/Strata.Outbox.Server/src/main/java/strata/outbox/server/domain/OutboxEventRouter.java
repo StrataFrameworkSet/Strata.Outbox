@@ -7,6 +7,7 @@ package strata.outbox.server.domain;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import strata.outbox.core.receiver.IOutboxEventReceiver;
+import strata.outbox.core.receiver.ReceiveException;
 import strata.outbox.core.repository.OutboxEvent;
 
 import java.util.Map;
@@ -24,6 +25,28 @@ class OutboxEventRouter
     {
         this.receivers = receivers;
         this.logger = LogManager.getLogger(OutboxEventRouter.class);
+    }
+
+    @Override
+    public void
+    open()
+        throws ReceiveException
+    {
+        logger.info("Opening outbox event router");
+        receivers
+            .values()
+            .forEach(receivers -> receivers.open());
+    }
+
+    @Override
+    public void
+    close()
+        throws ReceiveException
+    {
+        logger.info("Closing outbox event router");
+        receivers
+            .values()
+            .forEach(receivers -> receivers.close());
     }
 
     @Override

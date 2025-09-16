@@ -13,6 +13,9 @@
                 <column name="id"/>
                 <generated-value strategy="UUID"/>
             </id>
+            <basic name="attempt">
+                <column name="attempt"/>
+            </basic>
             <basic name="sourceType" >
                 <column name="sourceType"/>
             </basic>

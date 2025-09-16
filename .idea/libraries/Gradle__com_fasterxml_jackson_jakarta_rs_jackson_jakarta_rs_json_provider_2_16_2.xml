@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: com.fasterxml.jackson.jakarta.rs:jackson-jakarta-rs-json-provider:2.16.2" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="com.fasterxml.jackson.jakarta.rs" artifactId="jackson-jakarta-rs-json-provider" version="2.16.2" baseVersion="2.16.2" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.jakarta.rs/jackson-jakarta-rs-json-provider/2.16.2/aa5ce9148640f4b7212eb863308abbb01793de87/jackson-jakarta-rs-json-provider-2.16.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

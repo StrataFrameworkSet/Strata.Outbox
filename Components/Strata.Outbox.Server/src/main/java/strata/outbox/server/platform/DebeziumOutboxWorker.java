@@ -50,8 +50,8 @@ class DebeziumOutboxWorker
         logger.info("Starting outbox worker");
         setEngine(
             builder
-            .notifying(new DebeziumChangeConsumer(processor))
-            .build());
+                .notifying(new DebeziumChangeConsumer(processor))
+                .build());
 
         getEngine().run();
     }

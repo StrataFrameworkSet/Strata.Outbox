@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: org.springframework.guice:spring-guice:3.0.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.springframework.guice" artifactId="spring-guice" version="3.0.0" baseVersion="3.0.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.guice/spring-guice/3.0.0/5992ede5c8668778f343da2eb3fd75151a33725f/spring-guice-3.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

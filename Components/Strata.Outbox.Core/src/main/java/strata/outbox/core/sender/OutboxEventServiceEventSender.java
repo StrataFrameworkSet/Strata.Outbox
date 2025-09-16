@@ -4,10 +4,7 @@
 
 package strata.outbox.core.sender;
 
-import strata.foundation.core.event.CompletableSendResult;
-import strata.foundation.core.event.ICompletableSendResult;
-import strata.foundation.core.event.IEventSender;
-import strata.foundation.core.event.SendResult;
+import strata.foundation.core.event.*;
 import strata.outbox.core.repository.IOutboxEventRepository;
 
 public abstract

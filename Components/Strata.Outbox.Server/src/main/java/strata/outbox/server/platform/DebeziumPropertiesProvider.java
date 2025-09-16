@@ -68,10 +68,21 @@ class DebeziumPropertiesProvider
             "database.server.name",
             getRequired("debezium.database.server.name"));
 
+        // Connection pool properties
+        properties.setProperty(
+            "connection.pool.size",
+            getOptional("debezium.connection.pool.size","5"));
+        properties.setProperty(
+            "connection.timeout.ms",
+            getOptional("debezium.connection.timeout.ms","30000"));
+        properties.setProperty(
+            "max.connection.attempts",
+            getOptional("debezium.max.connection.attempts","3"));
+
         // Skip operations
         properties.setProperty(
             "skipped.operations",
-            getOptional("debezium.skipped.operations","u,d,t"));
+            getOptional("debezium.skipped.operations","d,t"));
         properties.setProperty("tombstone.on.delete","false");
 
         // Table inclusion/exclusion configs
@@ -83,7 +94,15 @@ class DebeziumPropertiesProvider
         properties.setProperty(
             "topic.prefix",
             getOptional("debezium.topic.prefix","outbox"));
-
+        properties.setProperty(
+            "slot.name",
+            getOptional("debezium.slot.name","debezium_outbox"));
+        properties.setProperty(
+            "slot.max.retries",
+            getOptional("debezium.max.retries","6"));
+        properties.setProperty(
+            "slot.retry.delay.ms",
+            getOptional("debezium.slot.retry.delay.ms","10000"));
         return properties;
     }
 

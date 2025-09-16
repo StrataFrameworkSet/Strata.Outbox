@@ -33,20 +33,46 @@ class DebeziumChangeConsumer
         throws InterruptedException
     {
         logger.info("Processing batch of {} events", events.size());
-        events.forEach(
-            event ->
-                {
-                    try
+
+        try
+        {
+            processor.open();
+
+            events.forEach(
+                event ->
                     {
-                        processor.process(event);
-                        committer.markProcessed(event);
-                    }
-                    catch (InterruptedException e)
-                    {
-                        throw new RuntimeException(e);
-                    }
-                });
-        committer.markBatchFinished();
+                        try
+                        {
+                            processor.process(event);
+                            committer.markProcessed(event);
+                        }
+                        catch (Throwable e)
+                        {
+                            logger.error("Error processing event: {}",event,e);
+                        }
+                    });
+            committer.markBatchFinished();
+        }
+        catch (InterruptedException e)
+        {
+            logger.error("Batch processing interrupted",e);
+            throw e;
+        }
+        catch (Throwable e)
+        {
+            logger.error("Error processing batch of events",e);
+        }
+        finally
+        {
+            try
+            {
+                processor.close();
+            }
+            catch (Exception e)
+            {
+                logger.error("Error closing processor",e);
+            }
+        }
     }
 }
 

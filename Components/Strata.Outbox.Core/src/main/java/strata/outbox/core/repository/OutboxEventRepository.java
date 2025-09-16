@@ -4,6 +4,7 @@
 
 package strata.outbox.core.repository;
 
+import jakarta.inject.Inject;
 import strata.server.core.repository.AbstractRepository;
 import strata.server.core.unitofwork.IUnitOfWork;
 
@@ -14,6 +15,7 @@ class OutboxEventRepository
     extends AbstractRepository<UUID,OutboxEvent>
     implements IOutboxEventRepository
 {
+    @Inject
     public
     OutboxEventRepository(IUnitOfWork uow)
     {

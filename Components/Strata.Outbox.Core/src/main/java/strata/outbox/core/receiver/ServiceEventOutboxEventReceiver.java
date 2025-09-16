@@ -10,9 +10,12 @@ import org.apache.logging.log4j.Logger;
 import strata.foundation.core.event.IEventSender;
 import strata.foundation.core.event.SendResult;
 import strata.outbox.core.repository.OutboxEvent;
+import strata.outbox.core.sender.SendException;
 import strata.outbox.core.shared.MappingException;
 
-public
+import static strata.foundation.core.concurrent.Awaiter.await;
+
+public abstract
 class ServiceEventOutboxEventReceiver<E,S extends IEventSender<E>>
     extends AbstractOutboxEventReceiver<E>
 {
@@ -20,15 +23,74 @@ class ServiceEventOutboxEventReceiver<E,S extends IEventSender<E>>
     private final S        sender;
     private final Logger   logger;
 
-    public
+    protected
     ServiceEventOutboxEventReceiver(
         Class<E> eventType,
-        S        sender)
+        S sender)
+        throws SendException
     {
         super();
         this.eventType = eventType;
         this.sender = sender;
         this.logger = LogManager.getLogger(ServiceEventOutboxEventReceiver.class);
+    }
+
+    @Override
+    public void
+    open()
+        throws ReceiveException
+    {
+        if (sender.isOpen())
+        {
+            logger.info("Event receiver is already open");
+            return;
+        }
+
+        try
+        {
+            logger.info("Opening event receiver");
+            sender.open();
+        }
+        catch (Exception e)
+        {
+            logger.error("Failed to open event receiver",e);
+            throw new ReceiveException("Failed to open event receiver",e);
+        }
+    }
+
+    @Override
+    public void
+    close() throws ReceiveException
+    {
+        if (sender.isClosed())
+        {
+            logger.info("Event receiver is already closed");
+            return;
+        }
+        try
+        {
+            logger.info("Closing event receiver");
+            sender.close();
+        }
+        catch (Exception e)
+        {
+            logger.error("Failed to close event receiver",e);
+            throw new ReceiveException("Failed to close event receiver",e);
+        }
+    }
+
+    @Override
+    public boolean
+    isOpen()
+    {
+        return sender.isOpen();
+    }
+
+    @Override
+    public boolean
+    isClosed()
+    {
+        return sender.isClosed();
     }
 
     @Override
@@ -38,12 +100,16 @@ class ServiceEventOutboxEventReceiver<E,S extends IEventSender<E>>
     {
         try
         {
+            logger.info(
+                "mapping event payload {}",
+                event.getEventPayload());
             return
                 getMapper()
                     .readValue(event.getEventPayload(),eventType);
         }
         catch (JsonProcessingException e)
         {
+            logger.error("Failed to map event payload",e);
             throw
                 new MappingException(
                     "Failed to map event payload to event type",e);
@@ -55,34 +121,70 @@ class ServiceEventOutboxEventReceiver<E,S extends IEventSender<E>>
     processPayload(E payload)
         throws ReceiveException
     {
-        sender
-            .send(payload)
-            .whenComplete((result,exception) -> processResult(result,exception));
-    }
+        logger.info("Sending event {}", payload);
 
-    protected void
-    processResult(SendResult<E> result,Throwable exception)
-    {
-        if (result != null)
+        try
         {
+            SendResult<E> result = await(sender.send(payload));
+
             if (result.isSuccess())
                 logger.info("Event sent successfully");
             else
-                logger.error(
-                    "Failed to send event",
+                throw
                     result
                         .getException()
-                        .orElse(new Exception("Unknown error")));
+                        .orElseThrow(
+                            () ->
+                                new RuntimeException(
+                                    "Failed to send event, but no exception was provided"));
         }
-        else if (exception != null)
-            logger.error(
-                "Failed to send event",
-                exception);
-        else
-            logger.error(
-                "Failed to send event",
-                new Exception("Unknown error"));
+        catch (Throwable e)
+        {
+            logger.error("Failed to send event",e);
+            throw new ReceiveException(e);
+        }
     }
+
+    protected void
+    openSenderIfNeeded() throws SendException
+    {
+        if (sender.isClosed())
+        {
+            try
+            {
+                logger.info("Opening event sender");
+                sender.open();
+            }
+            catch (Exception e)
+            {
+                logger.error(
+                    "Failed to open event sender",
+                    e);
+                throw new SendException(e);
+            }
+        }
+    }
+
+    protected void
+    closeSenderIfNeeded() throws SendException
+    {
+        if (sender.isOpen())
+        {
+            try
+            {
+                logger.info("Closing event sender");
+                sender.close();
+            }
+            catch (Exception e)
+            {
+                logger.error(
+                    "Failed to close event sender",
+                    e);
+                throw new SendException(e);
+            }
+        }
+    }
+
 }
 
 //////////////////////////////////////////////////////////////////////////////

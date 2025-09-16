@@ -24,8 +24,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("CommitStage")
 @ExtendWith(SpringExtension.class)
@@ -154,6 +153,69 @@ class OutboxEventRepositoryTest
                     .execute(
                         status ->
                             target.existsById(actual.get().getId())));
+
+    }
+
+
+    @Test
+    public void
+    testIncrementAndResave() throws Exception
+    {
+        final AtomicReference<OutboxEvent> expected = new AtomicReference<>();
+        final AtomicReference<OutboxEvent> actual = new AtomicReference<>();
+
+        expected.set(
+            new OutboxEvent()
+                .setSourceId(
+                    UUID
+                        .randomUUID()
+                        .toString())
+                .setSourceType(
+                    IEmailMessage
+                        .class
+                        .getSimpleName())
+                .setEventType(
+                    IEmailMessage
+                        .class
+                        .getSimpleName())
+                .setEventPayload(
+                    mapper.writeValueAsString(
+                        new SerializableEmailMessage()
+                            .setSender(new EmailAddress("johnliebenau@gmail.com"))
+                            .setRecipients(
+                                Set.of(new EmailAddress("johnliebenau@gmail.com")))
+                            .setSubject("Test Subject")
+                            .setContent("This is a test."))));
+
+        transaction.executeWithoutResult(
+            status ->
+                {
+                actual.set(target.save(expected.get()));
+                });
+        assertNotNull(actual.get());
+
+        transaction.executeWithoutResult(
+            status ->
+                {
+                target.delete(actual.get());
+                });
+
+        assertFalse(
+            (boolean)
+                transaction
+                    .execute(
+                        status ->
+                            target.existsById(actual.get().getId())));
+
+        transaction.executeWithoutResult(
+            status ->
+                {
+                actual.set(target.save(expected.get().incrementAttempt()));
+                });
+        assertNotNull(actual.get());
+        assertEquals(
+            2,
+            actual.get().getAttempt());
 
     }
 
