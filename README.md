@@ -61,32 +61,50 @@ The foundational outbox component that provides essential abstractions and utili
 
 Service layer implementations providing business logic and event processing workflows for outbox operations:
 
-**Features:**
-- Business logic implementations for outbox event processing
-- Service layer abstractions for event publishing workflows
-- Integration patterns for enterprise service communication
-- Event processing orchestration and coordination
+**Modules:**
+- `strata.outbox.service.requestreply` - Request-reply pattern abstractions for outbox worker management
+  - IOutboxService interface for managing outbox worker lifecycle operations
+  - StartWorkerRequest/StartWorkerReply for initiating outbox event processing
+  - StopWorkerRequest/StopWorkerReply for terminating outbox event processing
+  - QueryWorkerRequest/QueryWorkerReply for monitoring worker status and health
+  - Asynchronous service operations with CompletionStage support
 
 ### Strata.Outbox.Client
 
 Client-side components and utilities providing outbox event consumption and processing capabilities:
 
-**Features:**
-- Client-side event consumption utilities
-- Event processing clients for distributed systems
-- Integration patterns for consuming outbox events
-- Client-side error handling and retry mechanisms
+**Modules:**
+- `strata.outbox.client.requestreply` - Client abstractions for consuming outbox services
+  - IOutboxServiceClient interface extending IOutboxService with client-specific features
+  - OutboxServiceClient implementation for REST-based service communication
+  - Authorization header support for secure service access
+  - Resource management with proper connection lifecycle handling
 
 ### Strata.Outbox.Server
 
 Server-side components providing outbox event publishing infrastructure and Change Data Capture processing:
 
 **Modules:**
-- Server-side event publishing infrastructure
-- Debezium CDC integration for real-time event processing
-- Event streaming and delivery mechanisms
-- Spring Boot auto-configuration and enterprise integration
-- Monitoring and observability hooks for event processing
+- `strata.outbox.server.application` - Application layer for outbox service orchestration
+  - OutboxService implementation providing worker management operations
+  - IOutboxWorker interface for outbox event processing workers
+  - StartWorkerContext, StopWorkerContext, QueryWorkerContext for request handling
+  - ApplicationConfiguration for dependency injection and service setup
+- `strata.outbox.server.domain` - Domain layer abstractions for event routing
+  - IOutboxEventRouter interface for routing outbox events to appropriate handlers
+  - OutboxEventRouter implementation with receiver mapping and dispatch logic
+  - DomainConfiguration for domain-specific dependency injection
+- `strata.outbox.server.platform` - Platform layer for CDC integration and infrastructure
+  - DebeziumOutboxWorker for Change Data Capture event processing
+  - IChangeEventProcessor and RoutedChangeEventProcessor for CDC event handling
+  - IChangeEventConsumer and DebeziumChangeConsumer for consuming database changes
+  - IChangeEventToOutboxEventMapper and ChangeEventToOutboxEventMapper for event transformation
+  - DebeziumPropertiesProvider for CDC configuration management
+  - OutboxServiceController for REST API endpoints
+  - PlatformConfiguration for infrastructure setup and Spring integration
+- `strata.outbox.server.configuration` - Server configuration abstractions
+  - StrataOutboxServerConfiguration base class for Spring Boot auto-configuration
+  - Integration hooks for Spring Boot applications and enterprise setup
 
 ## Installation
 
