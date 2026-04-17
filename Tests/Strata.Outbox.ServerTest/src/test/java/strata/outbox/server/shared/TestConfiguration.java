@@ -15,6 +15,7 @@ import strata.outbox.core.receiver.IOutboxEventReceiverMapProvider;
 import strata.outbox.core.receiver.TextMessageOutboxEventReceiver;
 import strata.outbox.core.shared.MockTextMessageSender;
 import strata.outbox.server.application.IOutboxWorker;
+import strata.outbox.server.configuration.StrataChangeCaptureOutboxServerConfiguration;
 import strata.outbox.server.configuration.StrataOutboxServerConfiguration;
 import strata.foundation.core.configuration.IConfiguration;
 import strata.foundation.core.inject.ApplicationConfigurationProvider;
@@ -29,7 +30,7 @@ import java.util.Map;
 @PropertySource("classpath:test.properties")
 public
 class TestConfiguration
-    extends StrataOutboxServerConfiguration
+    extends StrataChangeCaptureOutboxServerConfiguration
 {
     @Override
     @Bean

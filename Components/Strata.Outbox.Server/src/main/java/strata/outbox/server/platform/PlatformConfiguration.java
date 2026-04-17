@@ -10,8 +10,10 @@ import io.debezium.engine.format.Json;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springdoc.core.properties.SpringDocConfigProperties;
 import org.springdoc.core.providers.ObjectMapperProvider;
+import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import strata.foundation.spring.inject.SingletonScoped;
 import strata.foundation.spring.mapper.StrataObjectMapperProvider;
 import strata.outbox.core.repository.IOutboxEventRepository;
 import strata.outbox.server.application.IOutboxWorker;
@@ -24,6 +26,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import strata.foundation.core.configuration.IConfiguration;
+import strata.server.spring.health.HealthCheckConfiguration;
 import strata.server.spring.repository.LocalContainerEntityManagerFactoryBeanProvider;
 import strata.server.spring.unitofwork.ISpringUnitOfWorkManager;
 import strata.server.spring.unitofwork.JpaUnitOfWork;
@@ -33,12 +36,13 @@ import io.debezium.engine.DebeziumEngine.Builder;
 @Configuration
 @EnableTransactionManagement
 @EnableAsync
+@Import({HealthCheckConfiguration.class})
 public
 class PlatformConfiguration
 {
 
     @Bean("outbox-worker")
-    @Scope("singleton")
+    @SingletonScoped
     public ThreadPoolTaskExecutor
     executor()
     {
@@ -51,7 +55,7 @@ class PlatformConfiguration
     }
 
     @Bean
-    @Scope("singleton")
+    @SingletonScoped
     public IOutboxWorker
     outboxWorker(
         Builder<ChangeEvent<String,String>> builder,
@@ -61,7 +65,7 @@ class PlatformConfiguration
     }
 
     @Bean
-    @Scope("singleton")
+    @SingletonScoped
     public Builder<ChangeEvent<String,String>>
     builder(IConfiguration configuration)
     {
@@ -72,7 +76,7 @@ class PlatformConfiguration
     }
 
     @Bean
-    @Scope("singleton")
+    @SingletonScoped
     public IChangeEventProcessor
     changeEventProcessor(IOutboxEventRouter router,IOutboxEventRepository repository)
     {
@@ -87,7 +91,7 @@ class PlatformConfiguration
     }
 
     @Bean
-    @Scope("singleton")
+    @SingletonScoped
     public LocalContainerEntityManagerFactoryBean
     localContainerEntityManagerFactoryBean(IConfiguration configuration)
     {
@@ -97,7 +101,7 @@ class PlatformConfiguration
     }
 
     @Bean
-    @Scope("singleton")
+    @SingletonScoped
     public ISpringUnitOfWorkManager
     unitOfWorkManager(JpaUnitOfWork unitOfWork)
     {
@@ -105,7 +109,7 @@ class PlatformConfiguration
     }
 
     @Bean
-    @Scope("singleton")
+    @SingletonScoped
     public JpaUnitOfWork
     unitOfWork(EntityManagerFactory factory)
     {
@@ -113,7 +117,7 @@ class PlatformConfiguration
     }
 
     @Bean
-    @Scope("singleton")
+    @SingletonScoped
     public GroupedOpenApi
     openApi()
     {
@@ -121,13 +125,17 @@ class PlatformConfiguration
             GroupedOpenApi
                 .builder()
                 .group("Outbox")
-                .pathsToMatch("/outbox-service/**")
-                .packagesToScan("strata.outbox.server.platform")
+                .pathsToMatch(
+                    "/outbox-service/**",
+                    "/health/**")
+                .packagesToScan(
+                    "strata.outbox.server.platform",
+                    "strata.server.spring.health")
                 .build();
     }
 
     @Bean
-    @Scope("singleton")
+    @SingletonScoped
     public ObjectMapperProvider
     objectMapperProvider(SpringDocConfigProperties properties)
     {

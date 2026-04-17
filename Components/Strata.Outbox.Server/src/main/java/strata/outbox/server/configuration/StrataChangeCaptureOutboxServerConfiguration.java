@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// StrataOutboxServerConfiguration.java
+// StrataChangeCaptureOutboxServerConfiguration.java
 //////////////////////////////////////////////////////////////////////////////
 
 package strata.outbox.server.configuration;
@@ -28,7 +28,6 @@ import strata.server.core.notification.TeleSignMessageSender;
 
 import java.util.Map;
 
-@Deprecated
 @Configuration
 @EnableTransactionManagement
 @EnableAsync
@@ -38,7 +37,7 @@ import java.util.Map;
     ChangeCapturePlatformConfiguration.class,
 })
 public
-class StrataOutboxServerConfiguration
+class StrataChangeCaptureOutboxServerConfiguration
 {
     @Bean
     @Scope("singleton")
