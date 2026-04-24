@@ -5,7 +5,7 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../../../Tests/Strata.Outbox.CoreTest/src/main" />
     <content url="file://$MODULE_DIR$/../../../../Tests/Strata.Outbox.CoreTest/src/unused" />
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="corretto-22 (2)" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

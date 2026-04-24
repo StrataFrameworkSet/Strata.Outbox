@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import strata.outbox.core.repository.IOutboxEventRepository;
 import strata.outbox.core.repository.OutboxEvent;
+import strata.outbox.core.repository.OutboxEventStatus;
 import strata.outbox.server.application.IOutboxWorker;
 import strata.outbox.server.domain.IOutboxEventRouter;
 
@@ -102,7 +103,7 @@ class PollingOutboxWorker
     {
         try
         {
-            for (OutboxEvent event : repository.findAll())
+            for (OutboxEvent event : repository.findAllByStatus(OutboxEventStatus.PENDING))
             {
                 processEvent(event);
             }

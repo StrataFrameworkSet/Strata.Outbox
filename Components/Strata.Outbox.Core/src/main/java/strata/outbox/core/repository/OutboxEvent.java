@@ -11,12 +11,13 @@ public
 class OutboxEvent
     implements Serializable
 {
-    private UUID    id;
-    private Integer attempt;
-    private String  sourceType;
-    private String  sourceId;
-    private String  eventType;
-    private String  eventPayload;
+    private UUID              id;
+    private Integer           attempt;
+    private String            sourceType;
+    private String            sourceId;
+    private String            eventType;
+    private String            eventPayload;
+    private OutboxEventStatus status;
 
     public
     OutboxEvent()
@@ -27,6 +28,7 @@ class OutboxEvent
         this.sourceId = null;
         this.eventType = null;
         this.eventPayload = null;
+        this.status = OutboxEventStatus.PENDING;
     }
 
     public OutboxEvent
@@ -71,6 +73,13 @@ class OutboxEvent
         return this;
     }
 
+    public OutboxEvent
+    setStatus(OutboxEventStatus status)
+    {
+        this.status = status;
+        return this;
+    }
+
     public UUID
     getId()
     {
@@ -102,6 +111,12 @@ class OutboxEvent
     getEventPayload()
     {
         return eventPayload;
+    }
+
+    public OutboxEventStatus
+    getStatus()
+    {
+        return status;
     }
 
     public OutboxEvent

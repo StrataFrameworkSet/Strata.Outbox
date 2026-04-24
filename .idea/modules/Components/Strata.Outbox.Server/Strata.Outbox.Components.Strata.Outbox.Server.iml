@@ -6,7 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/../../../../Components/Strata.Outbox.Server/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../../../Components/Strata.Outbox.Server/build" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="corretto-22 (2)" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

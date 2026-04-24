@@ -9,7 +9,7 @@
     <content url="file://$MODULE_DIR$/../../../../Tests/Strata.Outbox.ServerTest/src/unused">
       <sourceFolder url="file://$MODULE_DIR$/../../../../Tests/Strata.Outbox.ServerTest/src/unused" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="corretto-22 (2)" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.debezium.engine.ChangeEvent;
 import strata.outbox.core.repository.OutboxEvent;
+import strata.outbox.core.repository.OutboxEventStatus;
 import strata.outbox.core.shared.MappingException;
 import strata.outbox.core.shared.ObjectMapperProvider;
 
@@ -42,6 +43,7 @@ class ChangeEventToOutboxEventMapper
             Optional<String> sourceId = after.map(a -> a.get("sourceid").asText());
             Optional<String> type = after.map(a -> a.get("eventtype").asText());
             Optional<String> payload = after.map(a -> a.path("eventpayload").asText());
+            Optional<String> status = after.map(a -> a.path("status").asText());
 
             root.orElseThrow(
                 () -> new NoSuchElementException("root node not found"));
@@ -67,7 +69,12 @@ class ChangeEventToOutboxEventMapper
                             () -> new NoSuchElementException("eventType not found")))
                     .setEventPayload(
                         payload.orElseThrow(
-                            () -> new NoSuchElementException("eventPayload not found")));
+                            () -> new NoSuchElementException("eventPayload not found")))
+                    .setStatus(
+                        status
+                            .filter(s -> !s.isEmpty())
+                            .map(OutboxEventStatus::valueOf)
+                            .orElse(OutboxEventStatus.PENDING));
         }
         catch (Exception e)
         {

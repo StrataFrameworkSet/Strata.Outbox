@@ -6,10 +6,15 @@ package strata.outbox.core.repository;
 
 import strata.server.core.repository.IRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 public
 interface IOutboxEventRepository
-    extends IRepository<UUID,OutboxEvent> {}
+    extends IRepository<UUID,OutboxEvent>
+{
+    List<OutboxEvent>
+    findAllByStatus(OutboxEventStatus status);
+}
 
 //////////////////////////////////////////////////////////////////////////////

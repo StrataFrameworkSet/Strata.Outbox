@@ -2,7 +2,7 @@
   <library name="Gradle: strata.foundation:strata-foundation-kafka:1.0-SNAPSHOT" type="java-imported" external-system-id="GRADLE">
     <properties groupId="strata.foundation" artifactId="strata-foundation-kafka" version="1.0-SNAPSHOT" baseVersion="1.0-SNAPSHOT" />
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/strata.foundation/strata-foundation-kafka/1.0-SNAPSHOT/e4e6a1dc805aa1d645ef09e15b7d7028bdeebf04/strata-foundation-kafka-1.0-SNAPSHOT.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/strata.foundation/strata-foundation-kafka/1.0-SNAPSHOT/cb0a60d9324f2f27c62aeab7a6e35fb2e4e44b53/strata-foundation-kafka-1.0-SNAPSHOT.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

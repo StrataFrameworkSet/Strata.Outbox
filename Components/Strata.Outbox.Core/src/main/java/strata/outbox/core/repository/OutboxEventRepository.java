@@ -8,6 +8,7 @@ import jakarta.inject.Inject;
 import strata.server.core.repository.AbstractRepository;
 import strata.server.core.unitofwork.IUnitOfWork;
 
+import java.util.List;
 import java.util.UUID;
 
 public
@@ -20,6 +21,16 @@ class OutboxEventRepository
     OutboxEventRepository(IUnitOfWork uow)
     {
         super(OutboxEvent.class,"id",uow);
+    }
+
+
+    @Override
+    public List<OutboxEvent>
+    findAllByStatus(OutboxEventStatus status)
+    {
+        return
+            getUnitOfWork()
+                .findManyByCriteria(OutboxEvent.class,"status",status);
     }
 }
 

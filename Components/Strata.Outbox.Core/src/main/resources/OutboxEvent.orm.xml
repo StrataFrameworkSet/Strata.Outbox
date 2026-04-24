@@ -28,6 +28,10 @@
             <basic name="eventPayload">
                 <column name="eventPayload" length="5000000"/>
             </basic>
+            <basic name="status">
+                <column name="status"/>
+                <enumerated>STRING</enumerated>
+            </basic>
         </attributes>
     </entity>
 
