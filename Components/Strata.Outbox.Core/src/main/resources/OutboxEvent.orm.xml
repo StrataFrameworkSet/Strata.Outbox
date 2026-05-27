@@ -13,6 +13,9 @@
                 <column name="id"/>
                 <generated-value strategy="UUID"/>
             </id>
+            <version name="version">
+                <column name="version"/>
+            </version>
             <basic name="attempt">
                 <column name="attempt"/>
             </basic>
@@ -31,6 +34,12 @@
             <basic name="status">
                 <column name="status"/>
                 <enumerated>STRING</enumerated>
+            </basic>
+            <basic name="created">
+                <column name="created"/>
+            </basic>
+            <basic name="lastModified">
+                <column name="lastModified"/>
             </basic>
         </attributes>
     </entity>

@@ -15,6 +15,9 @@ interface IOutboxEventRepository
 {
     List<OutboxEvent>
     findAllByStatus(OutboxEventStatus status);
+
+    List<OutboxEvent>
+    findAllByStatusOrderByCreated(OutboxEventStatus status,int limit);
 }
 
 //////////////////////////////////////////////////////////////////////////////

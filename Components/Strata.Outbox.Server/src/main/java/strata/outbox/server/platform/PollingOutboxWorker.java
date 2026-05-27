@@ -7,12 +7,16 @@ package strata.outbox.server.platform;
 import jakarta.inject.Inject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import strata.outbox.core.repository.IOutboxEventRepository;
+import strata.foundation.core.inject.IInjector;
+import strata.foundation.core.inject.Operation;
 import strata.outbox.core.repository.OutboxEvent;
-import strata.outbox.core.repository.OutboxEventStatus;
 import strata.outbox.server.application.IOutboxWorker;
+import strata.outbox.server.domain.IOutboxEventProcessor;
 import strata.outbox.server.domain.IOutboxEventRouter;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -22,23 +26,20 @@ public
 class PollingOutboxWorker
     implements IOutboxWorker
 {
-    private final IOutboxEventRepository   repository;
-    private final IOutboxEventRouter       router;
-    private final ScheduledExecutorService scheduler;
-    private final AtomicBoolean            working;
-    private final Logger                   logger;
-    private static final Integer           MAX_ATTEMPTS = 5;
-    private static final long              POLL_INTERVAL_MS = 1000;
+    private final IInjector                     injector;
+    private final IOutboxEventRouter             router;
+    private volatile ScheduledExecutorService scheduler;
+    private final AtomicBoolean                  working;
+    private final Logger                         logger;
+    private static final long                    POLL_INTERVAL_MS = 1000;
 
     @Inject
     public
-    PollingOutboxWorker(
-        IOutboxEventRouter     router,
-        IOutboxEventRepository repository)
+    PollingOutboxWorker(IInjector injector,IOutboxEventRouter router)
     {
+        this.injector = injector;
         this.router = router;
-        this.repository = repository;
-        this.scheduler = Executors.newSingleThreadScheduledExecutor();
+        this.scheduler = null;
         this.working = new AtomicBoolean(false);
         this.logger = LogManager.getLogger(getClass());
     }
@@ -62,6 +63,7 @@ class PollingOutboxWorker
                 return;
             }
 
+            scheduler = Executors.newSingleThreadScheduledExecutor();
             scheduler.scheduleWithFixedDelay(
                 this::poll,
                 0,
@@ -101,49 +103,77 @@ class PollingOutboxWorker
     private void
     poll()
     {
-        try
+        List<OutboxEvent> pending = getPending();
+        List<OutboxEvent> working = getWorking(pending);
+
+        processWorking(working);
+    }
+
+    private List<OutboxEvent>
+    getPending()
+    {
+        try (Operation operation = new Operation(injector))
         {
-            for (OutboxEvent event : repository.findAllByStatus(OutboxEventStatus.PENDING))
-            {
-                processEvent(event);
-            }
+            IOutboxEventProcessor processor =
+                operation.getInstance(IOutboxEventProcessor.class);
+
+            return processor.getPending();
         }
         catch (Exception e)
         {
             logger.error("Error polling outbox events", e);
+            return new ArrayList<>();
+        }
+    }
+
+    private List<OutboxEvent>
+    getWorking(List<OutboxEvent> pending)
+    {
+        return
+            pending
+                .stream()
+                .map(this::checkOut)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList();
+    }
+
+    private Optional<OutboxEvent>
+    checkOut(OutboxEvent event)
+    {
+        try (Operation operation = new Operation(injector))
+        {
+            IOutboxEventProcessor processor =
+                operation.getInstance(IOutboxEventProcessor.class);
+
+            return Optional.ofNullable(processor.checkOut(event));
+        }
+        catch (Exception e)
+        {
+            logger.error("Error checking out outbox event", e);
+            return Optional.empty();
         }
     }
 
     private void
-    processEvent(OutboxEvent event)
+    processWorking(List<OutboxEvent> working)
     {
-        try
+        working.forEach(this::processOne);
+    }
+
+    private void
+    processOne(OutboxEvent event)
+    {
+        try (Operation operation = new Operation(injector))
         {
-            logger.info(
-                "Attempt {} for outbox event {}",
-                event.getAttempt(),
-                event.getId());
+            IOutboxEventProcessor processor =
+                operation.getInstance(IOutboxEventProcessor.class);
 
-            if (event.getAttempt() > MAX_ATTEMPTS)
-            {
-                logger.error(
-                    "Aborting outbox event {} after exceeding max attempts {}",
-                    event.getId(),
-                    event.getAttempt());
-                return;
-            }
-
-            router.route(event);
-            logger.info("Deleting completed outbox event {}", event.getId());
-            repository.delete(event);
+            processor.processEvent(event);
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            logger.error("Error processing outbox event {}", event.getId(), ex);
-            logger.info(
-                "Incrementing attempt for outbox event {} and re-saving",
-                event.getId());
-            repository.save(event.incrementAttempt());
+            logger.error("Error processing outbox event {}", event.getId(), e);
         }
     }
 }

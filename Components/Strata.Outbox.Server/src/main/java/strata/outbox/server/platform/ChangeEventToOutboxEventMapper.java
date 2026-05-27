@@ -12,6 +12,7 @@ import strata.outbox.core.repository.OutboxEventStatus;
 import strata.outbox.core.shared.MappingException;
 import strata.outbox.core.shared.ObjectMapperProvider;
 
+import java.time.Instant;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
@@ -39,11 +40,14 @@ class ChangeEventToOutboxEventMapper
             Optional<JsonNode> envPayload = root.map(r -> r.get("payload"));
             Optional<JsonNode> after = envPayload.map(p -> p.path("after"));
             Optional<String> id = after.map(a -> a.get("id").asText());
+            Optional<Long> version = after.map(a -> a.path("version")).filter(n -> !n.isMissingNode()).map(JsonNode::asLong);
             Optional<String> sourceType = after.map(a -> a.get("sourcetype").asText());
             Optional<String> sourceId = after.map(a -> a.get("sourceid").asText());
             Optional<String> type = after.map(a -> a.get("eventtype").asText());
             Optional<String> payload = after.map(a -> a.path("eventpayload").asText());
             Optional<String> status = after.map(a -> a.path("status").asText());
+            Optional<String> created = after.map(a -> a.path("created")).filter(n -> !n.isMissingNode()).map(JsonNode::asText);
+            Optional<String> lastModified = after.map(a -> a.path("lastmodified")).filter(n -> !n.isMissingNode()).map(JsonNode::asText);
 
             root.orElseThrow(
                 () -> new NoSuchElementException("root node not found"));
@@ -52,7 +56,7 @@ class ChangeEventToOutboxEventMapper
             after.orElseThrow(
                 () -> new NoSuchElementException("after not found"));
 
-            return
+            OutboxEvent outboxEvent =
                 new OutboxEvent()
                     .setId(
                         UUID.fromString(
@@ -75,6 +79,12 @@ class ChangeEventToOutboxEventMapper
                             .filter(s -> !s.isEmpty())
                             .map(OutboxEventStatus::valueOf)
                             .orElse(OutboxEventStatus.PENDING));
+
+            version.ifPresent(outboxEvent::setVersion);
+            created.map(Instant::parse).ifPresent(outboxEvent::setCreated);
+            lastModified.map(Instant::parse).ifPresent(outboxEvent::setLastModified);
+
+            return outboxEvent;
         }
         catch (Exception e)
         {

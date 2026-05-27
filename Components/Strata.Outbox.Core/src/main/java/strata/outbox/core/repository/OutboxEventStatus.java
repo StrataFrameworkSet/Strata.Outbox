@@ -9,7 +9,8 @@ enum OutboxEventStatus
 {
     PENDING,
     WORKING,
-    COMPLETED
+    COMPLETED,
+    FAILED
 }
 
 //////////////////////////////////////////////////////////////////////////////
