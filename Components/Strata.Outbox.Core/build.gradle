@@ -41,6 +41,7 @@ publishing {
 
 dependencies {
     api "strata.server:strata-server-core:$version"
+    api "strata.foundation:strata-foundation-spring:$version"
     api "org.springframework.boot:spring-boot-starter-security:$springboot_version"
     api 'org.springframework.security:spring-security-core:6.2.1'
     api 'org.postgresql:postgresql:42.6.0'
