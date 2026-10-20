@@ -20,7 +20,7 @@
     <content url="file://$MODULE_DIR$/../../../../Tests/Strata.Outbox.TestSuite/src/unused">
       <sourceFolder url="file://$MODULE_DIR$/../../../../Tests/Strata.Outbox.TestSuite/src/unused" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="corretto-22 (2)" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Strata.Outbox.Components.Strata.Outbox.Server.main" />
     <orderEntry type="module" module-name="Strata.Outbox.Components.Strata.Outbox.Client.main" />
@@ -278,7 +278,7 @@
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.apache.zookeeper:zookeeper-jute:3.6.3" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.apache.yetus:audience-annotations:0.5.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: io.netty:netty-transport-native-epoll:4.1.115.Final" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.squareup.okhttp3:okhttp-jvm:5.3.2" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.squareup.okhttp3:okhttp-jvm:5.5.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.glassfish.jaxb:jaxb-core:4.0.2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.glassfish.hk2.external:jakarta.inject:2.6.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.glassfish.jersey.core:jersey-client:2.39.1" level="project" />
@@ -289,7 +289,7 @@
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:2.2.21" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.glassfish.jaxb:txw2:4.0.2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.sun.istack:istack-commons-runtime:4.1.1" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.squareup.okio:okio-jvm:3.16.4" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.squareup.okio:okio-jvm:3.18.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
   </component>
 </module>

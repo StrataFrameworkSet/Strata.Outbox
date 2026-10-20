@@ -16,3 +16,14 @@ version "$major$minor$patch"
 task buildAll {
     dependsOn getTasksByName('build',true)
 }
+
+subprojects {
+    apply plugin: 'java'
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(23)
+            vendor = JvmVendorSpec.AMAZON
+        }
+    }
+}
