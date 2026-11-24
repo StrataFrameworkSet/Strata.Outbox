@@ -21,6 +21,7 @@ dependencies {
     implementation project(path: ':Tests:Strata.Outbox.CoreTest', configuration: 'testArtifacts')
     implementation project(path: ':Tests:Strata.Outbox.ServiceTest', configuration: 'testArtifacts')
     implementation "strata.foundation:strata-foundation-core:$strata_foundation_version"
+    implementation "strata.foundation:strata-foundation-kafka:$strata_foundation_version"
     implementation "org.junit.jupiter:junit-jupiter-api:$junit_jupiter_version"
     implementation "org.junit.jupiter:junit-jupiter-engine:$junit_jupiter_version"
     implementation "org.junit.platform:junit-platform-launcher:$junit_platform_version"
