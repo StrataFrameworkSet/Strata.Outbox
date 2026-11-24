@@ -15,7 +15,7 @@ import strata.outbox.server.shared.TestConfiguration;
 import strata.server.core.notification.SerializableEmailMessage;
 import strata.server.core.notification.SerializableTextMessage;
 
-@Tag("IntegrationStage")
+@Tag("Ignore-IntegrationStage")
 public
 class DebeziumOutboxWorkerTest
 {

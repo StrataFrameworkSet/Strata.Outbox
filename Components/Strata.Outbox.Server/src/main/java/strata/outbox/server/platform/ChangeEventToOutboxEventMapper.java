@@ -40,14 +40,14 @@ class ChangeEventToOutboxEventMapper
             Optional<JsonNode> envPayload = root.map(r -> r.get("payload"));
             Optional<JsonNode> after = envPayload.map(p -> p.path("after"));
             Optional<String> id = after.map(a -> a.get("id").asText());
-            Optional<Long> version = after.map(a -> a.path("version")).filter(n -> !n.isMissingNode()).map(JsonNode::asLong);
+            Optional<Long> version = after.map(a -> a.path("version")).filter(this::hasValue).map(JsonNode::asLong);
             Optional<String> sourceType = after.map(a -> a.get("sourcetype").asText());
             Optional<String> sourceId = after.map(a -> a.get("sourceid").asText());
             Optional<String> type = after.map(a -> a.get("eventtype").asText());
             Optional<String> payload = after.map(a -> a.path("eventpayload").asText());
-            Optional<String> status = after.map(a -> a.path("status").asText());
-            Optional<String> created = after.map(a -> a.path("created")).filter(n -> !n.isMissingNode()).map(JsonNode::asText);
-            Optional<String> lastModified = after.map(a -> a.path("lastmodified")).filter(n -> !n.isMissingNode()).map(JsonNode::asText);
+            Optional<String> status = after.map(a -> a.path("status")).filter(this::hasValue).map(JsonNode::asText);
+            Optional<String> created = after.map(a -> a.path("created")).filter(this::hasValue).map(JsonNode::asText);
+            Optional<String> lastModified = after.map(a -> a.path("lastmodified")).filter(this::hasValue).map(JsonNode::asText);
 
             root.orElseThrow(
                 () -> new NoSuchElementException("root node not found"));
@@ -90,6 +90,12 @@ class ChangeEventToOutboxEventMapper
         {
             throw new MappingException(e);
         }
+    }
+
+    private boolean
+    hasValue(JsonNode node)
+    {
+        return !node.isMissingNode() && !node.isNull();
     }
 }
 

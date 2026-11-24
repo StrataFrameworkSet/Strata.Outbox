@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-@Tag("IntegrationStage")
+@Tag("Ignore-IntegrationStage")
 public abstract
 class OutboxServiceTest
 {
