@@ -26,7 +26,7 @@ ext {
 
     postgresql_version = "42.7.4"
     h2_version = "2.3.232"
-    debezium_version = "3.1.1.Final"
+    debezium_version = "3.5.2.Final"
     resteasy_version = "6.2.7.Final"
 
     junit_jupiter_version = "5.13.3"
