@@ -1,0 +1,46 @@
+def imageTagVariable = 'BUILD_IMAGE_TAG'
+def imageTagValue = System.getenv(imageTagVariable)
+def imageTag = imageTagValue == null ? '' : imageTagValue.trim()
+def imageVersion = project.version.toString() - '-SNAPSHOT'
+def imageTagPattern = '^' + java.util.regex.Pattern.quote(imageVersion) + '-[0-9]{14}$'
+def imageTagFormat = "${imageVersion}-<yyyyMMddHHmmss>"
+def imageTagValid = !imageTag.isEmpty() && (imageTag ==~ imageTagPattern)
+
+def imageRepository = jib.to.image.replaceFirst(/:[^\/:]+$/, '')
+
+jib.to.image = imageTagValid ? "${imageRepository}:${imageTag}".toString() : imageRepository
+jib.to.tags = [] as Set
+
+def imageLabels = new LinkedHashMap<String,String>(jib.container.labels.getOrElse([:]))
+def labelSources = [
+    'org.opencontainers.image.version' : imageVersion,
+    'org.opencontainers.image.revision': System.getenv('BUILD_GIT_SHA'),
+    'org.opencontainers.image.created' : System.getenv('BUILD_CREATED'),
+    'strata.build.user'                : System.getenv('BUILD_USER'),
+    'strata.image.tag'                 : imageTagValid ? imageTag : null
+]
+
+labelSources.each
+{
+    key, value ->
+    if (value != null && !value.trim().isEmpty())
+        imageLabels.put(key,value.trim())
+}
+
+jib.container.labels = imageLabels
+
+tasks.matching { it.name in ['jib','jibBuildTar','jibDockerBuild'] }.configureEach
+{
+    task ->
+    task.onlyIf
+    {
+        if (imageTag.isEmpty())
+            task.logger.warn("${task.path} skipped: ${imageTagVariable} is not set")
+        return !imageTag.isEmpty()
+    }
+    task.doFirst
+    {
+        if (!imageTagValid)
+            throw new GradleException("${imageTagVariable} '${imageTag}' is invalid; expected format ${imageTagFormat}")
+    }
+}

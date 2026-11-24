@@ -11,16 +11,14 @@ sourceSets {
     main.java.srcDirs = ['src/unused']
 }
 
-group 'strata.outbox'
-version '1.0-SNAPSHOT'
 
 dependencies {
     testImplementation project(':Components:Strata.Outbox.Service')
-    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation platform("org.junit:junit-bom:$junit_jupiter_version")
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testFixturesImplementation project(':Components:Strata.Outbox.Service')
-    testFixturesImplementation platform('org.junit:junit-bom:5.9.1')
+    testFixturesImplementation platform("org.junit:junit-bom:$junit_jupiter_version")
     testFixturesImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
@@ -28,4 +26,26 @@ test {
     useJUnitPlatform {
         includeTags("CommitStage")
     }
+}
+
+tasks.register('testJar', Jar) {
+    archiveClassifier = 'tests'
+    from sourceSets.test.output
+    from sourceSets.testFixtures.output
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+configurations {
+    testArtifacts {
+        canBeResolved = false
+        canBeConsumed = true
+        extendsFrom testImplementation, testRuntimeOnly
+        outgoing {
+            capability("${project.group}:${project.name}-tests:${project.version}")
+        }
+    }
+}
+
+artifacts {
+    testArtifacts testJar
 }

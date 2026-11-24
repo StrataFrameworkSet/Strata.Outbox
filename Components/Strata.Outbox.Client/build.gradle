@@ -12,8 +12,6 @@ sourceSets {
 
 apply plugin: 'maven-publish'
 
-group 'strata.outbox'
-version "$major$minor$patch"
 
 task sourceJar(type: Jar) {
     from sourceSets.main.allJava
@@ -42,9 +40,9 @@ publishing {
 dependencies {
     api project(":Components:Strata.Outbox.Service")
     api "org.springframework.boot:spring-boot-starter-security:$springboot_version"
-    api "strata.client:strata-client-core:$version"
-    api "strata.client:strata-client-spring:$version"
-    api "strata.foundation:strata-foundation-kafka:$version"
-    api 'org.jboss.resteasy:resteasy-client:6.2.7.Final'
-    api 'org.jboss:jandex:3.1.6'
+    api "strata.client:strata-client-core:$strata_client_version"
+    api "strata.client:strata-client-spring:$strata_client_version"
+    api "strata.foundation:strata-foundation-kafka:$strata_foundation_version"
+    api "org.jboss.resteasy:resteasy-client:$resteasy_version"
+    api "io.smallrye:jandex:$jandex_version"
 }

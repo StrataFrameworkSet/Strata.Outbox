@@ -1,7 +1,8 @@
 # Strata.Outbox
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
-[![Version](https://img.shields.io/badge/version-1.0--SNAPSHOT-orange.svg)]()
+[![Snapshot](https://img.shields.io/badge/snapshot-1.0.0--SNAPSHOT-orange.svg)]()
 
 Transactional Outbox Pattern components and utilities for building robust, scalable enterprise microservices in the Strata Framework Set. This library provides core outbox abstractions, event publishing, reliable messaging, and enterprise patterns for building high-performance distributed applications with guaranteed event delivery.
 
@@ -113,22 +114,18 @@ Server-side components providing outbox event publishing infrastructure and Chan
 
 ## Installation
 
+The current development build is `1.0.0-SNAPSHOT`, built against Strata.Foundation, Strata.Client and Strata.Server **1.0.0** (see [Versioning](#versioning)).
+
 ### Gradle
 
 Add the following dependencies to your `build.gradle`:
 
 ```gradle
 dependencies {
-    implementation 'strata.outbox:strata-outbox-core:1.0-SNAPSHOT'
-    implementation 'strata.outbox:strata-outbox-service:1.0-SNAPSHOT'
-    implementation 'strata.outbox:strata-outbox-client:1.0-SNAPSHOT'
-    implementation 'strata.outbox:strata-outbox-server:1.0-SNAPSHOT'
-
-    // For testing
-    testImplementation 'strata.outbox:strata-outbox-core-test:1.0-SNAPSHOT'
-    testImplementation 'strata.outbox:strata-outbox-service-test:1.0-SNAPSHOT'
-    testImplementation 'strata.outbox:strata-outbox-client-test:1.0-SNAPSHOT'
-    testImplementation 'strata.outbox:strata-outbox-server-test:1.0-SNAPSHOT'
+    implementation 'strata.outbox:strata-outbox-core:1.0.0-SNAPSHOT'
+    implementation 'strata.outbox:strata-outbox-service:1.0.0-SNAPSHOT'
+    implementation 'strata.outbox:strata-outbox-client:1.0.0-SNAPSHOT'
+    implementation 'strata.outbox:strata-outbox-server:1.0.0-SNAPSHOT'
 }
 ```
 
@@ -141,51 +138,36 @@ Add the following dependencies to your `pom.xml`:
     <dependency>
         <groupId>strata.outbox</groupId>
         <artifactId>strata-outbox-core</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
         <groupId>strata.outbox</groupId>
         <artifactId>strata-outbox-service</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
         <groupId>strata.outbox</groupId>
         <artifactId>strata-outbox-client</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
         <groupId>strata.outbox</groupId>
         <artifactId>strata-outbox-server</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </dependency>
-
-    <!-- For testing -->
-    <dependency>
-        <groupId>strata.outbox</groupId>
-        <artifactId>strata-outbox-core-test</artifactId>
-        <version>1.0-SNAPSHOT</version>
-        <scope>test</scope>
-    </dependency>
-    <dependency>
-        <groupId>strata.outbox</groupId>
-        <artifactId>strata-outbox-service-test</artifactId>
-        <version>1.0-SNAPSHOT</version>
-        <scope>test</scope>
-    </dependency>
-    <dependency>
-        <groupId>strata.outbox</groupId>
-        <artifactId>strata-outbox-client-test</artifactId>
-        <version>1.0-SNAPSHOT</version>
-        <scope>test</scope>
-    </dependency>
-    <dependency>
-        <groupId>strata.outbox</groupId>
-        <artifactId>strata-outbox-server-test</artifactId>
-        <version>1.0-SNAPSHOT</version>
-        <scope>test</scope>
+        <version>1.0.0-SNAPSHOT</version>
     </dependency>
 </dependencies>
 ```
+
+### Docker Images
+
+The Outbox ServiceHost and the integration test suite are published to GitHub Container Registry:
+
+```bash
+docker pull ghcr.io/johnliebenau/strata/strata-outbox-servicehost:1.0.0-<yyyyMMddHHmmss>
+docker pull ghcr.io/johnliebenau/strata/strata-outbox-testsuite:1.0.0-<yyyyMMddHHmmss>
+```
+
+The ServiceHost listens on HTTPS port 8085 and needs `PROPERTIES_ENCRYPTION_KEY`. Set `DEBEZIUM_STORAGE_DIR` to choose where Debezium keeps its offset file.
 
 ### Repository Configuration
 
@@ -203,6 +185,22 @@ repositories {
     }
 }
 ```
+
+## Versioning
+
+| | Development snapshot | Release |
+|---|---|---|
+| Maven jars | `X.Y.0-SNAPSHOT` (e.g. `1.0.0-SNAPSHOT`) | `X.Y.0` (e.g. `1.0.0`) |
+| Docker images | `X.Y.0-<yyyyMMddHHmmss>` (one per pipeline run) | `X.Y.0` |
+
+- `.github/workflows/build-pipeline.yml` runs on `development` and `release-*`. Its stages are:
+  - **commit**: build and test, and push the ServiceHost and testsuite images
+  - **integration**: run the testsuite image's `IntegrationStage` tests against PostgreSQL and the ServiceHost image
+  - **acceptance**: a placeholder
+  - **deploy**: publish the snapshot jars to GitHub Packages
+- A release is made on a `release-X.Y` branch:
+  - its last snapshot is promoted to the release version with `strata-outbox-promote.ps1` / `strata-outbox-promote.sh` (run with `--dry-run` / `-DryRun` first). The jars are republished as `X.Y.0`, and the newest `X.Y.0-<timestamp>` images (or `--image-tag` / `-ImageTag`) are tagged `X.Y.0`
+  - `development` then moves on to the next minor version
 
 ## Usage
 

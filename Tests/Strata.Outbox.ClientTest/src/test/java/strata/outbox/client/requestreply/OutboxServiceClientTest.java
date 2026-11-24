@@ -22,7 +22,7 @@ class OutboxServiceClientTest
     public void
     setUp() throws Exception
     {
-        subject = new OutboxServiceClient("https://localhost:8081");
+        subject = new OutboxServiceClient("https://localhost:8085");
     }
 
     @AfterEach

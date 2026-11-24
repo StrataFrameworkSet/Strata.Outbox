@@ -15,8 +15,6 @@ sourceSets {
     test.resources.srcDirs = ['src/unused']
 }
 
-group 'strata.outbox'
-version "$major$minor$patch"
 
 task sourceJar(type: Jar) {
     from sourceSets.main.allJava
@@ -25,11 +23,43 @@ task sourceJar(type: Jar) {
 dependencies {
     implementation project(":Components:Strata.Outbox.Server")
     implementation(testFixtures(project(':Tests:Strata.Outbox.CoreTest')))
-    implementation 'org.springframework.boot:spring-boot-starter-log4j2:3.4.5'
+    implementation "org.springframework.boot:spring-boot-starter-log4j2:$springboot_version"
 }
 
 jib {
     from {
-        image = 'amazoncorretto:23'
+        image = "amazoncorretto:23"
+        auth {
+            username = "$System.env.DOCKER_USER"
+            password = "$System.env.DOCKER_PASSWORD"
+        }
     }
+    to {
+        image = "ghcr.io/johnliebenau/strata/strata-outbox-servicehost"
+        auth {
+            username = "$System.env.REPOSITORY_USER"
+            password = "$System.env.REPOSITORY_PASSWORD"
+        }
+    }
+    container {
+        environment = [DEPLOY_ENV:"development"]
+        jvmFlags = [
+            '-Xmx1024m',
+            '--add-opens=java.base/java.lang=ALL-UNNAMED',
+            '--add-opens=java.base/java.lang.invoke=ALL-UNNAMED',
+            '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED',
+            '--add-opens=java.base/java.nio=ALL-UNNAMED',
+            '--add-opens=java.base/sun.nio.ch=ALL-UNNAMED',
+            '--add-opens=java.base/java.io=ALL-UNNAMED',
+            '--add-opens=java.base/jdk.internal.ref=ALL-UNNAMED']
+
+        mainClass = "strata.outbox.servicehost.main.OutboxServiceHost"
+        ports = ['8085']
+        format = 'OCI'
+    }
+}
+apply from: rootProject.file('gradle/strata-image.gradle')
+
+tasks.named('build') {
+    finalizedBy('jib')
 }

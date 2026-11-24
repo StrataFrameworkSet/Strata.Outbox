@@ -2,23 +2,48 @@ project.buildDir = ".build"
 wrapper.jarFile = ".gradle/wrapper/gradle-wrapper.jar"
 
 ext {
-    springboot_version = "3.1.5"
-    hibernate_version = "5.6.11.Final"
+    strata_foundation_version = "1.0.0"
+    strata_client_version = "1.0.0"
+    strata_server_version = "1.0.0"
+
+    spring_version = "6.2.2"
+    springboot_version = "3.4.1"
+    spring_security_version = "6.4.2"
+    spring_data_jpa_version = "4.0.4"
+    spring_guice_version = "3.0.0"
+    springdoc_version = "2.8.4"
+
+    modelmapper_version = "3.2.6"
+    apache_commons_lang_version = "3.13.0"
+    jandex_version = "3.3.0"
+    c3p0_version = "0.12.0"
+    reactive_streams_version = "1.0.4"
+    hibernate_version = "6.6.4.Final"
+    log4j_version = "2.25.3"
+
+    jakarta_persistence_version = "3.1.0"
+    jakarta_transaction_version = "2.0.1"
+
+    postgresql_version = "42.7.4"
+    h2_version = "2.3.232"
+    debezium_version = "3.1.1.Final"
+    resteasy_version = "6.2.7.Final"
+
+    junit_jupiter_version = "5.13.3"
+    junit_platform_version = "1.13.3"
+
     major = "1"
     minor = ".0"
-    patch = "-SNAPSHOT"
+    patch = ".0-SNAPSHOT"
 }
-
-apply plugin: 'java'
 group 'strata.outbox'
 version "$major$minor$patch"
 
-task buildAll {
-    dependsOn getTasksByName('build',true)
-}
-
 subprojects {
     apply plugin: 'java'
+
+    group 'strata.outbox'
+    version "$major$minor$patch"
 
     java {
         toolchain {
@@ -26,4 +51,16 @@ subprojects {
             vendor = JvmVendorSpec.AMAZON
         }
     }
+
+    compileJava {
+        options.release = 23
+    }
+
+    compileTestJava {
+        options.release = 23
+    }
+}
+
+task buildAll {
+    dependsOn getTasksByName('build',true)
 }

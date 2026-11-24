@@ -7,12 +7,19 @@ package strata.outbox.server.platform;
 import jakarta.inject.Provider;
 import strata.foundation.core.configuration.IConfiguration;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 public
 class DebeziumPropertiesProvider
     implements Provider<Properties>
 {
+    private static final String STORAGE_DIR_VARIABLE = "DEBEZIUM_STORAGE_DIR";
+
     private final IConfiguration configuration;
 
     public
@@ -35,7 +42,7 @@ class DebeziumPropertiesProvider
             "org.apache.kafka.connect.storage.FileOffsetBackingStore");
         properties.setProperty(
             "offset.storage.file.filename",
-            getRequired("debezium.offset.storage.file.filename"));
+            getOffsetStorageFileName());
         properties.setProperty(
             "offset.flush.interval.ms",
             getOptional("debezium.offset.flush.interval.ms","60000"));
@@ -104,6 +111,32 @@ class DebeziumPropertiesProvider
             "slot.retry.delay.ms",
             getOptional("debezium.slot.retry.delay.ms","10000"));
         return properties;
+    }
+
+    protected String
+    getOffsetStorageFileName()
+    {
+        String configured = getRequired("debezium.offset.storage.file.filename");
+        String storageDir = System.getenv(STORAGE_DIR_VARIABLE);
+
+        if (storageDir == null || storageDir.isBlank())
+            return configured;
+
+        Path directory = Paths.get(storageDir);
+
+        try
+        {
+            Files.createDirectories(directory);
+        }
+        catch (IOException e)
+        {
+            throw new UncheckedIOException(e);
+        }
+
+        return
+            directory
+                .resolve(Paths.get(configured).getFileName())
+                .toString();
     }
 
     protected String

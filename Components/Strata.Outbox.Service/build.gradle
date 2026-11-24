@@ -11,8 +11,6 @@ sourceSets {
 
 apply plugin: 'maven-publish'
 
-group 'strata.outbox'
-version "$major$minor$patch"
 
 publishing {
     publications {
@@ -35,7 +33,7 @@ publishing {
 }
 
 dependencies {
-    api "strata.foundation:strata-foundation-core:$version"
-    api 'org.springframework.security:spring-security-core:6.2.1'
+    api "strata.foundation:strata-foundation-core:$strata_foundation_version"
+    api "org.springframework.security:spring-security-core:$spring_security_version"
     api "org.springframework.boot:spring-boot-starter-web:$springboot_version"
 }

@@ -1,73 +1,34 @@
 plugins {
-    id 'java-library'
+    id 'java'
+    id "com.google.cloud.tools.jib" version "3.5.4"
 }
 
 sourceSets {
-    test.java.srcDirs = ['src/test/java']
-    test.resources.srcDirs = ['src/test/resources']
-    main.java.srcDirs = ['src/unused']
+    main.java.srcDirs = ['src/main/java']
+    main.resources.srcDirs = ['src/main/resources']
+    test.java.srcDirs = ['src/unused']
+    test.resources.srcDirs = ['src/unused']
 }
 
 apply plugin: 'maven-publish'
 
-
-group 'strata.outbox'
-version '1.0-SNAPSHOT'
-
-task sourceJar(type: Jar) {
-    from sourceSets.main.allJava
-}
-
-task suiteJar(type:Jar) {
-    from sourceSets.main.output
-    from sourceSets.test.output
-}
-
-tasks.named('assemble').configure {
-    dependsOn 'jar'
-    dependsOn 'sourceJar'
-    dependsOn 'suiteJar'
-}
-
 dependencies {
-    api project(':Components:Strata.Outbox.Service')
-    api project(':Components:Strata.Outbox.Server')
-    api project(':Components:Strata.Outbox.Client')
-    api project(':Tests:Strata.Outbox.ServiceTest')
-    api project(':Tests:Strata.Outbox.ServerTest')
-    api project(':Tests:Strata.Outbox.ClientTest')
-    api 'org.junit.jupiter:junit-jupiter-api:5.9.1'
-    api 'org.junit.jupiter:junit-jupiter-engine:5.9.1'
-    api 'org.junit.jupiter:junit-jupiter:5.10.2'
-    api 'org.junit.platform:junit-platform-console-standalone:1.10.2'
+    implementation project(':Components:Strata.Outbox.Service')
+    implementation project(':Components:Strata.Outbox.Server')
+    implementation project(':Components:Strata.Outbox.Client')
+    implementation project(path: ':Tests:Strata.Outbox.ServerTest', configuration: 'testArtifacts')
+    implementation project(path: ':Tests:Strata.Outbox.ClientTest', configuration: 'testArtifacts')
+    implementation project(path: ':Tests:Strata.Outbox.CoreTest', configuration: 'testArtifacts')
+    implementation project(path: ':Tests:Strata.Outbox.ServiceTest', configuration: 'testArtifacts')
+    implementation "strata.foundation:strata-foundation-core:$strata_foundation_version"
+    implementation "org.junit.jupiter:junit-jupiter-api:$junit_jupiter_version"
+    implementation "org.junit.jupiter:junit-jupiter-engine:$junit_jupiter_version"
+    implementation "org.junit.platform:junit-platform-launcher:$junit_platform_version"
 }
-
-test {
-    useJUnitPlatform {
-        includeTags("CommitStage")
-    }
-}
-
-/*
-jar {
-    dependsOn(':Components:Strata.Outbox.Service:jar')
-    dependsOn(':Components:Strata.Outbox.Server:jar')
-    dependsOn(':Components:Strata.Outbox.Client:jar')
-    dependsOn(':Tests:Strata.Outbox.ServiceTest:jar')
-    dependsOn(':Tests:Strata.Outbox.ServerTest:jar')
-    dependsOn(':Tests:Strata.Outbox.ClientTest:jar')
-
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
-*/
 
 publishing {
     publications {
-        StrataFoundationSpring(MavenPublication) {
+        StrataOutboxTestSuite(MavenPublication) {
             artifactId = 'strata-outbox-testsuite'
             from components.java
 
@@ -83,4 +44,43 @@ publishing {
             }
         }
     }
+}
+
+jib {
+    from {
+        image = "amazoncorretto:23"
+        auth {
+            username = "$System.env.DOCKER_USER"
+            password = "$System.env.DOCKER_PASSWORD"
+        }
+    }
+    to {
+        image = "ghcr.io/johnliebenau/strata/strata-outbox-testsuite"
+        auth {
+            username = "$System.env.REPOSITORY_USER"
+            password = "$System.env.REPOSITORY_PASSWORD"
+        }
+    }
+    container {
+        environment = [DEPLOY_ENV:"test"]
+        jvmFlags = [
+            '-Xmx1024m',
+            '--add-opens=java.base/java.lang=ALL-UNNAMED',
+            '--add-opens=java.base/java.lang.invoke=ALL-UNNAMED',
+            '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED',
+            '--add-opens=java.base/java.nio=ALL-UNNAMED',
+            '--add-opens=java.base/sun.nio.ch=ALL-UNNAMED',
+            '--add-opens=java.base/java.io=ALL-UNNAMED',
+            '--add-opens=java.base/jdk.internal.ref=ALL-UNNAMED']
+
+        mainClass = "strata.foundation.core.testrunner.JunitTestRunner"
+        args = ['--tags=CommitStage','--package=strata.outbox']
+        expandClasspathDependencies = true
+        format = 'OCI'
+    }
+}
+apply from: rootProject.file('gradle/strata-image.gradle')
+
+tasks.named('build') {
+    finalizedBy('jib')
 }

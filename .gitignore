@@ -83,4 +83,3 @@ APP_LOG_DIR_IS_UNDEFINED/
 *.*~
 *~
 .merge_file*
-yarn.lock

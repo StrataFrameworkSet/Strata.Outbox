@@ -12,8 +12,6 @@ sourceSets {
 
 apply plugin: 'maven-publish'
 
-group 'strata.outbox'
-version "$major$minor$patch"
 
 task sourceJar(type: Jar) {
     from sourceSets.main.allJava
@@ -40,11 +38,11 @@ publishing {
 }
 
 dependencies {
-    api "strata.server:strata-server-core:$version"
-    api "strata.foundation:strata-foundation-spring:$version"
+    api "strata.server:strata-server-core:$strata_server_version"
+    api "strata.foundation:strata-foundation-spring:$strata_foundation_version"
     api "org.springframework.boot:spring-boot-starter-security:$springboot_version"
-    api 'org.springframework.security:spring-security-core:6.2.1'
-    api 'org.postgresql:postgresql:42.6.0'
-    api 'com.h2database:h2:2.1.214'
-    api 'org.modelmapper:modelmapper:3.2.0'
+    api "org.springframework.security:spring-security-core:$spring_security_version"
+    api "org.postgresql:postgresql:$postgresql_version"
+    api "com.h2database:h2:$h2_version"
+    api "org.modelmapper:modelmapper:$modelmapper_version"
 }

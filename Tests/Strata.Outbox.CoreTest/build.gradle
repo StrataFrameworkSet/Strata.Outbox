@@ -11,31 +11,29 @@ sourceSets {
     main.java.srcDirs = ['src/unused']
 }
 
-group 'strata.outbox'
-version '1.0-SNAPSHOT'
 
 dependencies {
     testImplementation project(':Components:Strata.Outbox.Core')
-    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation platform("org.junit:junit-bom:$junit_jupiter_version")
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    testImplementation "strata.server:strata-server-spring:$version"
+    testImplementation "strata.server:strata-server-spring:$strata_server_version"
     testImplementation "org.springframework.boot:spring-boot-starter-test:$springboot_version"
-    testImplementation 'org.postgresql:postgresql:42.6.0'
-    testImplementation 'com.h2database:h2:2.1.214'
+    testImplementation "org.postgresql:postgresql:$postgresql_version"
+    testImplementation "com.h2database:h2:$h2_version"
 
     testFixturesImplementation project(':Components:Strata.Outbox.Core')
-    testFixturesImplementation platform('org.junit:junit-bom:5.9.1')
+    testFixturesImplementation platform("org.junit:junit-bom:$junit_jupiter_version")
     testFixturesImplementation 'org.junit.jupiter:junit-jupiter'
-    testFixturesImplementation "strata.server:strata-server-spring:$version"
+    testFixturesImplementation "strata.server:strata-server-spring:$strata_server_version"
     testFixturesImplementation "org.springframework.boot:spring-boot-starter-test:$springboot_version"
-    testFixturesImplementation 'org.postgresql:postgresql:42.6.0'
-    testFixturesImplementation 'com.h2database:h2:2.1.214'
+    testFixturesImplementation "org.postgresql:postgresql:$postgresql_version"
+    testFixturesImplementation "com.h2database:h2:$h2_version"
 
 /*
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.9.3'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$junit_jupiter_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_jupiter_version"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_jupiter_version"
 */
 }
 
@@ -43,4 +41,26 @@ test {
     useJUnitPlatform {
         includeTags("CommitStage")
     }
+}
+
+tasks.register('testJar', Jar) {
+    archiveClassifier = 'tests'
+    from sourceSets.test.output
+    from sourceSets.testFixtures.output
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+configurations {
+    testArtifacts {
+        canBeResolved = false
+        canBeConsumed = true
+        extendsFrom testImplementation, testRuntimeOnly
+        outgoing {
+            capability("${project.group}:${project.name}-tests:${project.version}")
+        }
+    }
+}
+
+artifacts {
+    testArtifacts testJar
 }

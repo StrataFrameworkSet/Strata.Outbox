@@ -12,8 +12,6 @@ sourceSets {
 
 apply plugin: 'maven-publish'
 
-group 'strata.outbox'
-version "$major$minor$patch"
 
 task sourceJar(type: Jar) {
     from sourceSets.main.allJava
@@ -42,12 +40,12 @@ publishing {
 dependencies {
     api project(":Components:Strata.Outbox.Core")
     api project(":Components:Strata.Outbox.Service")
-    api "strata.server:strata-server-spring:$version"
+    api "strata.server:strata-server-spring:$strata_server_version"
     api "org.springframework.boot:spring-boot-starter-security:$springboot_version"
-    api "io.debezium:debezium-embedded:3.1.1.Final"
-    api "io.debezium:debezium-connector-postgres:3.1.1.Final"
-    api 'org.springframework.security:spring-security-core:6.2.1'
-    api 'org.postgresql:postgresql:42.6.0'
-    api 'com.h2database:h2:2.1.214'
-    api 'org.modelmapper:modelmapper:3.2.0'
+    api "io.debezium:debezium-embedded:$debezium_version"
+    api "io.debezium:debezium-connector-postgres:$debezium_version"
+    api "org.springframework.security:spring-security-core:$spring_security_version"
+    api "org.postgresql:postgresql:$postgresql_version"
+    api "com.h2database:h2:$h2_version"
+    api "org.modelmapper:modelmapper:$modelmapper_version"
 }
