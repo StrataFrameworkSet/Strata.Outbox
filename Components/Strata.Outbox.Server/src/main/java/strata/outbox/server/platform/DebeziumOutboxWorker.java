@@ -9,11 +9,11 @@ import io.debezium.engine.DebeziumEngine;
 import io.debezium.engine.DebeziumEngine.Builder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import strata.outbox.server.application.IOutboxWorker;
 
 import java.io.IOException;
+import java.util.concurrent.Executor;
 
 @Service
 public
@@ -22,23 +22,25 @@ class DebeziumOutboxWorker
 {
     private final Builder<ChangeEvent<String,String>>  builder;
     private final IChangeEventProcessor                processor;
+    private final Executor                             executor;
     private DebeziumEngine<ChangeEvent<String,String>> engine;
     private final Logger                               logger;
 
     public
     DebeziumOutboxWorker(
         Builder<ChangeEvent<String,String>> builder,
-        IChangeEventProcessor               processor)
+        IChangeEventProcessor               processor,
+        Executor                            executor)
     {
         this.builder = builder;
         this.processor = processor;
+        this.executor = executor;
         this.engine  = null;
         this.logger  = LogManager.getLogger(DebeziumOutboxWorker.class);
     }
 
     @Override
-    @Async("outbox-worker")
-    public void
+    public synchronized void
     start()
     {
         if (isWorking())
@@ -48,12 +50,27 @@ class DebeziumOutboxWorker
         }
 
         logger.info("Starting outbox worker");
-        setEngine(
+
+        DebeziumEngine<ChangeEvent<String,String>> started =
             builder
                 .notifying(new DebeziumChangeConsumer(processor))
-                .build());
+                .build();
 
-        getEngine().run();
+        setEngine(started);
+        executor.execute(() -> run(started));
+    }
+
+    private void
+    run(DebeziumEngine<ChangeEvent<String,String>> started)
+    {
+        try
+        {
+            started.run();
+        }
+        finally
+        {
+            clearEngine(started);
+        }
     }
 
     @Override
@@ -95,6 +112,13 @@ class DebeziumOutboxWorker
     getEngine()
     {
         return engine;
+    }
+
+    private synchronized void
+    clearEngine(DebeziumEngine<ChangeEvent<String,String>> finished)
+    {
+        if (engine == finished)
+            engine = null;
     }
 }
 

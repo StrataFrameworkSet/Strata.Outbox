@@ -12,6 +12,7 @@ import jakarta.persistence.EntityManagerFactory;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springdoc.core.properties.SpringDocConfigProperties;
 import org.springdoc.core.providers.ObjectMapperProvider;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -31,6 +32,8 @@ import strata.server.spring.unitofwork.ISpringUnitOfWorkManager;
 import strata.server.spring.unitofwork.JpaUnitOfWork;
 import strata.server.spring.unitofwork.JpaUnitOfWorkManager;
 
+import java.util.concurrent.Executor;
+
 @Configuration
 @EnableTransactionManagement
 @EnableAsync
@@ -43,9 +46,10 @@ class ChangeCapturePlatformConfiguration
     public IOutboxWorker
     outboxWorker(
         Builder<ChangeEvent<String,String>> builder,
-        IChangeEventProcessor processor)
+        IChangeEventProcessor processor,
+        @Qualifier("outbox-worker") Executor executor)
     {
-        return new DebeziumOutboxWorker(builder,processor);
+        return new DebeziumOutboxWorker(builder,processor,executor);
     }
 
     @Bean
