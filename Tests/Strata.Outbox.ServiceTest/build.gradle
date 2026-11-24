@@ -18,6 +18,7 @@ dependencies {
     testImplementation project(':Components:Strata.Outbox.Service')
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testFixturesImplementation project(':Components:Strata.Outbox.Service')
     testFixturesImplementation platform('org.junit:junit-bom:5.9.1')
     testFixturesImplementation 'org.junit.jupiter:junit-jupiter'

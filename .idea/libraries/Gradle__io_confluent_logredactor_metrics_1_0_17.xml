@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: io.confluent:logredactor-metrics:1.0.17" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="io.confluent" artifactId="logredactor-metrics" version="1.0.17" baseVersion="1.0.17" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.confluent/logredactor-metrics/1.0.17/3c93415a3fff7ff158747447d3a3dabda653c77c/logredactor-metrics-1.0.17.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

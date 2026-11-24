@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: strata.foundation:strata-foundation-guice:1.0-SNAPSHOT" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="strata.foundation" artifactId="strata-foundation-guice" version="1.0-SNAPSHOT" baseVersion="1.0-SNAPSHOT" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/strata/foundation/strata-foundation-guice/1.0-SNAPSHOT/strata-foundation-guice-1.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

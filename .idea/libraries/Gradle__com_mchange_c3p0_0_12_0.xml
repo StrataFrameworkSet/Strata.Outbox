@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: com.mchange:c3p0:0.12.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="com.mchange" artifactId="c3p0" version="0.12.0" baseVersion="0.12.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.mchange/c3p0/0.12.0/9c912c2d5b43bdef90ea33ad7c4cdbf5204c6515/c3p0-0.12.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
