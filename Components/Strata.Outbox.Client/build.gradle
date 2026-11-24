@@ -42,7 +42,6 @@ dependencies {
     api "org.springframework.boot:spring-boot-starter-security:$springboot_version"
     api "strata.client:strata-client-core:$strata_client_version"
     api "strata.client:strata-client-spring:$strata_client_version"
-    api "strata.foundation:strata-foundation-kafka:$strata_foundation_version"
     api "org.jboss.resteasy:resteasy-client:$resteasy_version"
     api "io.smallrye:jandex:$jandex_version"
 }
